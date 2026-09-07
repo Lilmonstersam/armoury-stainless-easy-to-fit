@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Page not found | Armoury Easy Fit mockup</title>
+<style>
+  :root{--o:#F58220;--mute:#a9a9a9;--line:rgba(255,255,255,.14)}
+  html,body{height:100%}
+  body{
+    margin:0; background:#000; color:#fff;
+    font:400 15px/1.7 Montserrat,Arial,Helvetica,sans-serif;
+    display:flex; align-items:center; justify-content:center; padding:40px 24px;
+  }
+  main{max-width:640px; width:100%}
+  .kicker{
+    font:800 11px/1 Montserrat,Arial,sans-serif; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--o); margin:0 0 16px;
+  }
+  h1{
+    font:400 clamp(38px,8vw,64px)/1 "Agency",Montserrat,Arial,sans-serif;
+    letter-spacing:.02em; text-transform:uppercase; margin:0 0 14px;
+  }
+  p{color:#c4c4c4; margin:0 0 28px; max-width:52ch}
+  nav{display:flex; flex-wrap:wrap; gap:26px; border-top:1px solid var(--line); padding-top:26px}
+  a{
+    color:#fff; text-decoration:none;
+    font:400 20px/1.1 "Agency",Montserrat,Arial,sans-serif;
+    letter-spacing:.02em; text-transform:uppercase;
+    border-bottom:2px solid var(--o); padding-bottom:6px; transition:.16s ease;
+  }
+  a:hover{color:var(--o); border-bottom-color:#fff}
+  code{background:#141414; color:#f5a05a; padding:2px 7px; border-radius:3px; font-size:13px}
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker">Digilari mockup</p>
+  <h1>Page not found</h1>
+  <p>
+    This is the Armoury Easy Fit mockup. Only five routes exist here, and
+    <code id="path"></code> is not one of them.
+  </p>
+  <nav id="links"></nav>
+</main>
+
+<script>
+  // Works whether the site is served from a custom domain (base "/") or from a
+  // GitHub project page (base "/<repo>/"), so the links resolve either way.
+  (function () {
+    var parts = location.pathname.split("/").filter(Boolean);
+    var isProjectPage = location.hostname.endsWith("github.io") && parts.length > 0;
+    var base = isProjectPage ? "/" + parts[0] + "/" : "/";
+
+    document.getElementById("path").textContent = location.pathname;
+
+    var routes = [
+      ["Start here", ""],
+      ["All Products", "accessories/index.html"],
+      ["Easy Fit range", "accessories/easy-fit/index.html"],
+      ["Kenworth K200", "vehicle/kenworth-k200/index.html"],
+      ["Air Cleaner Panels", "products/aircleaner-panels/index.html"],
+      ["Dealers", "dealers/easy-fit-range/index.html"]
+    ];
+
+    document.getElementById("links").innerHTML = routes
+      .map(function (r) { return '<a href="' + base + r[1] + '">' + r[0] + "</a>"; })
+      .join("");
+  })();
+</script>
+</body>
+</html>

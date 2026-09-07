@@ -1,0 +1,63 @@
+name: Deploy mockup to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Least privilege: read the repo, write a Pages deployment, mint an OIDC token.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Let a running deploy finish rather than cancelling it half way.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    name: Verify links and structure
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Check every local link and asset resolves
+        run: python3 tools/check-links.py
+
+      - name: Confirm no page is indexable
+        run: |
+          missing=0
+          while IFS= read -r f; do
+            if ! grep -qi 'name="robots" content="noindex' "$f"; then
+              echo "::error file=$f::missing noindex meta"
+              missing=1
+            fi
+          done < <(find . -name '*.html' -not -path './.git/*' -not -path '*_files/*')
+          exit $missing
+
+  deploy:
+    name: Deploy
+    needs: verify
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/configure-pages@v5
+
+      - name: Upload site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

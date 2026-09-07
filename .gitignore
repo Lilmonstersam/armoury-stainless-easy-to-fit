@@ -1,0 +1,36 @@
+# macOS
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*~
+
+# Node (only used locally to build the notes document)
+node_modules/
+package-lock.json
+npm-debug.log*
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local build scratch (root level only, so nothing in the asset folders is caught)
+/tmp/
+/*.pdf
+/page-*.jpg
+/p-*.jpg
+/easyfit.json
+
+# The client notes document lives one level up, outside this repo
+Armoury-Easy-Fit-Build-Notes.docx

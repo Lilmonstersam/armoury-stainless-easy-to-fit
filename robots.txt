@@ -1,0 +1,12 @@
+# Armoury Easy Fit mockup - Digilari Media
+#
+# This site is a private client mockup. It reproduces large parts of
+# armourygroup.com.au, so it must never be indexed: an indexed copy would
+# compete with the real site for the client's own terms.
+#
+# Every page also carries <meta name="robots" content="noindex, nofollow">.
+# The robots directives intended for PRODUCTION are documented separately in
+# Armoury-Easy-Fit-Build-Notes.docx, not implied by this file.
+
+User-agent: *
+Disallow: /

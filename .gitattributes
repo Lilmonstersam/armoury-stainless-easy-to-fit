@@ -1,0 +1,32 @@
+# Normalise line endings for text, leave binaries alone.
+* text=auto eol=lf
+
+*.html  text eol=lf
+*.css   text eol=lf
+*.js    text eol=lf
+*.py    text eol=lf
+*.md    text eol=lf
+*.txt   text eol=lf
+*.svg   text eol=lf
+
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.webp  binary
+*.gif   binary
+*.ico   binary
+*.woff  binary
+*.woff2 binary
+*.ttf   binary
+*.eot   binary
+*.pdf   binary
+*.docx  binary
+
+# The saved production pages are machine-generated. Collapse them in diffs so
+# a one-line change to the Easy Fit layer is readable in a pull request.
+*_files/**            linguist-vendored
+accessories/index.html                  linguist-generated
+vehicle/kenworth-k200/index.html        linguist-generated
+products/aircleaner-panels/index.html   linguist-generated
+accessories/easy-fit/index.html         linguist-generated
+dealers/easy-fit-range/index.html       linguist-generated
