@@ -43,7 +43,9 @@
    ========================================================================== */
 .ef-filterbar{
   position:relative; z-index:5;
-  display:flex; align-items:center; gap:22px; flex-wrap:wrap;
+  /* see the note on .ef-promo: never centre inside an overflow:hidden ancestor */
+  display:flex; align-items:center; gap:14px 22px; flex-wrap:wrap;
+  overflow:visible; min-height:0;
   width:auto; max-width:none; margin:0 var(--ef-gutter) 26px; padding:16px 22px;
   background:#0d0d0d !important; border:1px solid var(--ef-line);
   border-left:4px solid var(--ef-orange);
@@ -122,25 +124,31 @@
    3. PROMO STRIP (accessories hub -> landing page)
    ========================================================================== */
 .ef-promo{
-  display:flex; align-items:center; gap:34px; flex-wrap:wrap;
+  /* align-items:flex-start, never center. These sit inside
+     .hellochild__body-wrap, which is overflow:hidden, so any content taller
+     than the box would overflow upward and get clipped: the kicker and the
+     first lines of the heading silently disappear and leave a black band. */
+  display:flex; align-items:flex-start; gap:34px 44px; flex-wrap:wrap;
   max-width:none; margin:0 var(--ef-gutter) 44px; padding:34px 38px;
   background:#0d0d0d; border-left:5px solid var(--ef-orange);
   font-family:Montserrat,Arial,sans-serif;
+  overflow:visible; min-height:0;
 }
-.ef-promo__body{flex:1 1 440px;}
+.ef-promo__body{flex:1 1 min(440px,100%); min-width:0;}
 .ef-promo__kicker{
   font:800 11px/1 Montserrat,Arial,sans-serif !important; letter-spacing:.18em;
   text-transform:uppercase; color:var(--ef-orange) !important; margin:0 0 12px !important;
 }
 .ef-promo h2{
-  font:400 34px/1.02 Agency,Montserrat,Arial,sans-serif !important; letter-spacing:.02em;
+  font:400 34px/1.08 Agency,Montserrat,Arial,sans-serif !important; letter-spacing:.02em;
   text-transform:uppercase; color:#fff !important; margin:0 0 12px !important;
+  overflow-wrap:break-word; hyphens:none;
 }
 .ef-promo p{
   font:400 14px/1.7 Montserrat,Arial,sans-serif !important; color:#c4c4c4 !important;
   margin:0 !important; max-width:64ch;
 }
-.ef-promo .ef-btnrow{display:flex; gap:34px; flex-wrap:wrap;}
+.ef-promo .ef-btnrow{display:flex; gap:20px 34px; flex-wrap:wrap; min-width:0; margin-top:0;}
 
 /* ==========================================================================
    4. SITE BUTTON  (frameless, orange underline - matches elementor-kit-6)
@@ -148,14 +156,14 @@
 .ef-btn,
 .ef-page-content .elementor-button,
 .ef-promo .ef-btn{
-  display:inline-block; background:transparent !important;
+  display:inline-block; max-width:100%; background:transparent !important;
   color:#fff !important; text-decoration:none !important;
   font-family:Agency,Montserrat,Arial,sans-serif !important;
   font-size:24px !important; font-weight:400 !important; line-height:1.1 !important;
   letter-spacing:.02em; text-transform:uppercase;
   border:0 !important; border-bottom:2px solid var(--ef-orange) !important;
   border-radius:0 !important; padding:16px 0 8px !important;
-  transition:.16s ease; white-space:nowrap;
+  transition:.16s ease; white-space:normal;
 }
 .ef-btn:hover,
 .ef-page-content .elementor-button:hover,

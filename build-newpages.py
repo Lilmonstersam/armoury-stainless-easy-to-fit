@@ -18,6 +18,7 @@ markup wearing them collapses to display:inline.
 Content is generated from assets/easy-fit-data.js, the same dataset that drives
 the filter and the badges, so nothing can drift out of sync.
 """
+import hashlib
 import pathlib
 import re
 import json
@@ -26,6 +27,19 @@ ROOT = pathlib.Path(__file__).parent
 SHELL_SRC = ROOT / "vehicle" / "kenworth-k200" / "index.html"
 SHELL_ASSETS = "../../vehicle/kenworth-k200/AG - Kenworth K200_files/"
 ACC_ASSETS = "../../accessories/AG - Accessories_files/"
+
+
+def asset_version(*names: str) -> str:
+    """Short content hash of the shared assets, used as a cache buster."""
+    h = hashlib.sha256()
+    for n in names:
+        f = ROOT / "assets" / n
+        if f.exists():
+            h.update(f.read_bytes())
+    return h.hexdigest()[:8]
+
+
+VER = asset_version("easy-fit.css", "easy-fit.js", "easy-fit-data.js")
 
 # ---- read the shared dataset -------------------------------------------------
 raw = (ROOT / "assets" / "easy-fit-data.js").read_text(encoding="utf-8")
@@ -160,9 +174,9 @@ def head_swap(top, title, desc, canonical=None, robots=None, root="../../", page
     extra += '<meta name="robots" content="noindex, nofollow">\n'
     if canonical:
         extra += '<link rel="canonical" href="%s">\n' % canonical
-    extra += '<link rel="stylesheet" href="%sassets/easy-fit.css">\n' % root
-    extra += '<script src="%sassets/easy-fit-data.js"></script>\n' % root
-    extra += '<script src="%sassets/easy-fit.js" defer></script>\n' % root
+    extra += '<link rel="stylesheet" href="%sassets/easy-fit.css?v=%s">\n' % (root, VER)
+    extra += '<script src="%sassets/easy-fit-data.js?v=%s"></script>\n' % (root, VER)
+    extra += '<script src="%sassets/easy-fit.js?v=%s" defer></script>\n' % (root, VER)
     top = top.replace("</head>", extra + "</head>", 1)
     top = re.sub(r"<html([^>]*)>",
                  lambda m: "<html%s data-ef-root=\"%s\" data-ef-page=\"%s\">" % (

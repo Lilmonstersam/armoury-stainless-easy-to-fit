@@ -14,11 +14,30 @@ applies the four approved changes:
 It is idempotent: re-running it re-applies cleanly because every injected
 node carries an ef- prefix and is removed first.
 """
+import hashlib
 import re
 import sys
 import pathlib
 
 ROOT = pathlib.Path(__file__).parent
+
+
+def asset_version(*names: str) -> str:
+    """Short content hash of the shared assets.
+
+    Appended to the CSS and JS URLs so a browser or the Pages CDN can never
+    serve a stale stylesheet after a redeploy, which otherwise shows up as
+    half-applied layout that is impossible to reproduce locally.
+    """
+    h = hashlib.sha256()
+    for n in names:
+        f = ROOT / "assets" / n
+        if f.exists():
+            h.update(f.read_bytes())
+    return h.hexdigest()[:8]
+
+
+VER = asset_version("easy-fit.css", "easy-fit.js", "easy-fit-data.js")
 
 PAGES = {
     "accessories/index.html": {
@@ -90,9 +109,9 @@ LOOP_ITEM = """<div data-elementor-type="loop-item" data-elementor-id="2030" cla
 
 HEAD_BLOCK = """
 <!-- ==== DIGILARI EASY FIT MOCKUP :: START ============================== -->
-<link rel="stylesheet" href="{root}assets/easy-fit.css" id="ef-css">
-<script src="{root}assets/easy-fit-data.js" id="ef-data"></script>
-<script src="{root}assets/easy-fit.js" id="ef-js" defer></script>
+<link rel="stylesheet" href="{root}assets/easy-fit.css?v={ver}" id="ef-css">
+<script src="{root}assets/easy-fit-data.js?v={ver}" id="ef-data"></script>
+<script src="{root}assets/easy-fit.js?v={ver}" id="ef-js" defer></script>
 <!-- Recommended production title for this page -->
 <meta name="ef-recommended-title" content="{title}">
 <!-- Hosting guard. This mockup reproduces armourygroup.com.au, so the hosted
@@ -197,7 +216,7 @@ def main():
         html = rewrite_links(html, cfg["root"])
         html = set_html_attrs(html, cfg)
 
-        block = HEAD_BLOCK.format(root=cfg["root"], title=cfg["title"])
+        block = HEAD_BLOCK.format(root=cfg["root"], title=cfg["title"], ver=VER)
         if "</head>" not in html:
             print("!! no </head> in", rel, file=sys.stderr)
             continue
