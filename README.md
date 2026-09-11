@@ -64,7 +64,7 @@ python3 tools/check-links.py
 |---|---|---|---|
 | 1 | `accessories/index.html` | Live page source | Easy Fit filter + badges + promo strip |
 | 2 | `vehicle/kenworth-k200/index.html` | Live page source | Same filter + badges on a model page |
-| 3 | `products/aircleaner-panels/index.html` | Live page source | Badge above H1 + Fitting panel |
+| 3 | `products/aircleaner-panels/index.html` | Live page source | Badge above H1, Fitting panel, persistent add bar |
 | 4 | `accessories/easy-fit/index.html` | New, built in the real shell | Curated landing page, 22 products |
 | 5 | `dealers/easy-fit-range/index.html` | New, built in the real shell | Dealer collateral, `noindex, follow` |
 
@@ -150,7 +150,24 @@ Two template fixes were made on this page at the same time:
      so the whole product reads in one screen
   4. The Easy Fit fitting panel, closing the section
 
-Both should be applied to every product page, not just this one.
+Three conversion fixes were added on top:
+
+- **Persistent add bar.** The spec / Add to Quote table is the only place on the page a buyer can
+  act, and it leaves the viewport a third of the way down. A bar appears once that table has
+  scrolled past and stays anchored to the bottom of the window: the model picker (every row of the
+  table, selectable without scrolling back), the truck it suits, the order number and Add to Cart
+  in the site's primary orange. It never shows before the table has been seen, so it does not
+  pre-empt the spec detail. On mobile the model name takes its own line above the order number and
+  the button, and truncates rather than wrapping. The CTA forwards the click to the matching table
+  row instead of duplicating the cart logic, so it cannot drift out of step with the production
+  add-to-quote script.
+- **"View All" on Other Products**, under the category grid, pointing at `/accessories/`. The grid
+  shows five of more than forty categories with no way out of it.
+- **Enquiry form replaced with a contact CTA.** A ten-field form at the foot of a product page
+  competes with the add-to-quote path above it and asks for the same information twice. The section
+  now closes with one ask: Contact us, Download Brochures, and the phone and email.
+
+All of these should be applied to every product page, not just this one.
 
 This is the highest-leverage item in the whole plan. Thirteen product pages already rank for
 roughly 1,300 searches a month between them and none of them currently says anything about
@@ -209,7 +226,9 @@ dealers/easy-fit-range/        Page 5 (new)
 assets/easy-fit-data.js        THE dataset. Edit fitting times and flags here only.
 assets/easy-fit.css            All Easy Fit styling, using the live theme's brand tokens.
 assets/easy-fit.js             Filter, badges, fitting panel, breadcrumbs, Product Specs
-                               restructure, hero and project-photo carousels.
+                               restructure, hero and project-photo carousels, the product
+                               page's persistent add bar, Other Products "View All" and the
+                               contact CTA that replaces the enquiry form.
 build-mockup.py                Re-applies the Easy Fit layer to the three production pages.
 build-newpages.py              Regenerates the route index, the landing page and the dealer
                                page, each inside the real site shell, from the dataset.

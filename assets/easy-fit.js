@@ -430,6 +430,238 @@
   }
 
   /* ---------------------------------------------------------------------- */
+  /* 3c. Model rows lifted from the spec / Add to Quote table                 */
+  /* ---------------------------------------------------------------------- */
+  function specRows() {
+    var rows = document.querySelectorAll(
+      ".stainless-spec-row:not(.stainless-spec-header)"
+    );
+    var out = [];
+    Array.prototype.forEach.call(rows, function (row) {
+      var cells = row.children;
+      if (cells.length < 4) return;
+      var add = row.querySelector(
+        ".product-actions a:not(.brochure-button)"
+      );
+      if (!add) return;
+      out.push({
+        desc: (cells[0].textContent || "").trim(),
+        sku: (cells[1].textContent || "").trim(),
+        vehicle: (cells[2].textContent || "").trim(),
+        add: add,
+      });
+    });
+    return out;
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* 3d. Persistent add bar                                                  */
+  /*                                                                         */
+  /*  The whole conversion decision lives in one table roughly a third of    */
+  /*  the way down the page. Once it scrolls past, there is nothing to buy   */
+  /*  from until the footer. The bar re-attaches that decision to the rest   */
+  /*  of the page: it appears only after the table leaves the viewport, and  */
+  /*  carries the model picker, the order number and the primary CTA.        */
+  /*                                                                         */
+  /*  The CTA forwards the click to the matching row in the table rather     */
+  /*  than duplicating the cart logic, so the bar can never drift out of     */
+  /*  step with whatever the production add-to-quote script does.            */
+  /* ---------------------------------------------------------------------- */
+  function stickyBar() {
+    if (document.querySelector(".ef-sticky")) return;
+    var items = specRows();
+    if (!items.length) return;
+
+    var anchor =
+      document.querySelector(".ef-specs__table") ||
+      document.querySelector(".specs-wrapper") ||
+      document.querySelector(".stainless-spec-table");
+    if (!anchor) return;
+
+    var h1 = document.querySelector("h1.elementor-heading-title");
+    var title = (h1 && h1.textContent.trim()) || "Product";
+
+    var bar = el("div", "ef-sticky");
+    bar.setAttribute("aria-hidden", "true");
+    bar.innerHTML =
+      '<div class="ef-sticky__inner">' +
+      '<div class="ef-sticky__model">' +
+      '<span class="ef-sticky__eyebrow">' +
+      title +
+      "</span>" +
+      '<div class="ef-sticky__pick">' +
+      '<div class="ef-sticky__selectwrap">' +
+      '<select class="ef-sticky__select" id="ef-sticky-select" aria-label="Choose model"></select>' +
+      "</div>" +
+      '<span class="ef-sticky__spec" id="ef-sticky-spec"></span>' +
+      "</div>" +
+      "</div>" +
+      '<div class="ef-sticky__actions">' +
+      '<span class="ef-sticky__sku">Order no. <b id="ef-sticky-sku"></b></span>' +
+      '<button type="button" class="ef-sticky__cta" id="ef-sticky-add">Add to Cart</button>' +
+      "</div>" +
+      "</div>";
+    document.body.appendChild(bar);
+
+    var select = bar.querySelector("#ef-sticky-select");
+    var spec = bar.querySelector("#ef-sticky-spec");
+    var sku = bar.querySelector("#ef-sticky-sku");
+    var cta = bar.querySelector("#ef-sticky-add");
+
+    items.forEach(function (it, i) {
+      var opt = document.createElement("option");
+      opt.value = String(i);
+      opt.textContent = it.desc;
+      select.appendChild(opt);
+    });
+
+    var current = 0;
+    function paint() {
+      var it = items[current];
+      select.value = String(current);
+      select.title = it.desc;
+      spec.textContent = it.vehicle;
+      spec.title = it.vehicle;
+      sku.textContent = it.sku;
+    }
+    paint();
+
+    select.addEventListener("change", function () {
+      current = parseInt(select.value, 10) || 0;
+      paint();
+    });
+
+    /* Mirror the table button's own state so the bar never claims an add
+       the production script did not actually make. */
+    cta.addEventListener("click", function () {
+      var source = items[current].add;
+      if (!source) return;
+      var label = "Add to Cart";
+      cta.disabled = true;
+      cta.textContent = "Adding…";
+      source.click();
+
+      var ticks = 0;
+      var poll = setInterval(function () {
+        ticks++;
+        var state = (source.textContent || "").trim();
+        var done = /^added/i.test(state) || /try again/i.test(state);
+        if (!done && ticks < 16) return;
+        clearInterval(poll);
+        cta.textContent = /try again/i.test(state) ? "Try again" : "Added ✓";
+        setTimeout(function () {
+          cta.textContent = label;
+          cta.disabled = false;
+        }, 1600);
+      }, 250);
+    });
+
+    var visible = null;
+    function show(on) {
+      if (on === visible) return;
+      visible = on;
+      bar.classList.toggle("is-on", on);
+      bar.setAttribute("aria-hidden", on ? "false" : "true");
+      document.body.classList.toggle("ef-sticky-on", on);
+      /* Reserve the bar's real height so the footer is never covered. */
+      document.documentElement.style.setProperty(
+        "--ef-sticky-h",
+        (bar.offsetHeight || 80) + "px"
+      );
+    }
+
+    /* A scroll listener rather than an IntersectionObserver: IO reports a
+       state CHANGE, and a jump link or a fast flick can clear a 700px table
+       between two frames without ever reporting it as intersecting. */
+    var queued = false;
+    function check() {
+      queued = false;
+      show(anchor.getBoundingClientRect().bottom < 0);
+    }
+    function onScroll() {
+      if (queued) return;
+      queued = true;
+      window.requestAnimationFrame(check);
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    check();
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* 3e. "View All" on the Other Products grid                               */
+  /* ---------------------------------------------------------------------- */
+  function otherProductsViewAll() {
+    if (document.querySelector(".ef-viewall")) return;
+    var head = null;
+    Array.prototype.forEach.call(
+      document.querySelectorAll(".elementor-widget-heading .elementor-heading-title"),
+      function (h) {
+        if (!head && h.textContent.trim().toLowerCase() === "other products") head = h;
+      }
+    );
+    if (!head) return;
+    var section = head.closest(".e-con-inner") || head.closest(".e-con");
+    if (!section) return;
+    var grid = section.querySelector(".elementor-widget-wc-categories, .woocommerce");
+    var row = el(
+      "div",
+      "ef-viewall",
+      '<a class="ef-btn" href="https://armourygroup.com.au/accessories/">View All</a>'
+    );
+    var host = (grid && grid.closest(".elementor-widget")) || grid;
+    if (host && host.parentNode) host.parentNode.insertBefore(row, host.nextSibling);
+    else section.appendChild(row);
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* 3f. Contact CTA in place of the end-of-page enquiry form                */
+  /*                                                                         */
+  /*  A ten-field form at the bottom of a product page competes with the     */
+  /*  add-to-quote path above it and collects the same information twice.    */
+  /*  Replaced with a single contact route, so the page ends with one ask.   */
+  /* ---------------------------------------------------------------------- */
+  function contactCta() {
+    if (document.querySelector(".ef-contactcta")) return;
+    var widget =
+      document.querySelector("#quote.elementor-widget-form") ||
+      document.querySelector(".elementor-widget-form");
+    if (!widget || !widget.parentNode) return;
+
+    /* The form sits alone on a white Elementor card. Swap the card, not just
+       the form, or the CTA is left floating in a block of leftover white. */
+    var host = widget;
+    var card = widget.closest(".e-con.e-child");
+    if (card && card.querySelectorAll(".elementor-widget").length === 1) host = card;
+
+    var cta = el("div", "ef-contactcta");
+    cta.id = "quote";
+    cta.innerHTML =
+      '<p class="ef-contactcta__kicker">Talk to the team</p>' +
+      "<p class=\"ef-contactcta__text\">Tell us your truck model and what you are after. " +
+      "We will confirm sizes, part numbers and your nearest fitting dealer.</p>" +
+      '<div class="ef-contactcta__row">' +
+      '<a class="ef-contactcta__btn" href="https://armourygroup.com.au/contact-stainless/">Contact us</a>' +
+      '<a class="ef-contactcta__btn ef-contactcta__btn--ghost" href="https://armourygroup.com.au/brochure/" target="_blank" rel="noopener">Download Brochures</a>' +
+      "</div>" +
+      '<p class="ef-contactcta__meta">' +
+      '<a href="tel:1300005576">1300 005 576</a>' +
+      '<a href="mailto:sales@armourygroup.com.au">sales@armourygroup.com.au</a>' +
+      "</p>";
+    host.parentNode.replaceChild(cta, host);
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* 3g. Product page extras that do not depend on the Easy Fit attribute    */
+  /* ---------------------------------------------------------------------- */
+  function productExtras() {
+    if (document.documentElement.getAttribute("data-ef-page") !== "product") return;
+    stickyBar();
+    otherProductsViewAll();
+    contactCta();
+  }
+
+  /* ---------------------------------------------------------------------- */
   /* 4. Hero gallery carousel (new pages)                                    */
   /* ---------------------------------------------------------------------- */
   function galleries() {
@@ -511,6 +743,7 @@
   function init() {
     var counts = tagCards();
     productPage();
+    productExtras();
     galleries();
 
     if (counts.total > 0 && document.querySelector(".elementor-loop-container")) {
