@@ -153,14 +153,12 @@ Two template fixes were made on this page at the same time:
 Three conversion fixes were added on top:
 
 - **Persistent add bar.** The spec / Add to Quote table is the only place on the page a buyer can
-  act, and it leaves the viewport a third of the way down. A bar appears once that table has
-  scrolled past and stays anchored to the bottom of the window: the model picker (every row of the
-  table, selectable without scrolling back), the truck it suits, the order number and Add to Cart
-  in the site's primary orange. It never shows before the table has been seen, so it does not
-  pre-empt the spec detail. On mobile the model name takes its own line above the order number and
-  the button, and truncates rather than wrapping. The CTA forwards the click to the matching table
-  row instead of duplicating the cart logic, so it cannot drift out of step with the production
-  add-to-quote script.
+  act, and it leaves the viewport a third of the way down. A bar is anchored to the bottom of the
+  window for the whole page: the model picker (every row of the table, selectable without scrolling
+  back), the truck it suits, the order number and Add to Cart in the site's primary orange. On
+  mobile the model name takes its own line above the order number and the button, and truncates
+  rather than wrapping. The CTA forwards the click to the matching table row instead of duplicating
+  the cart logic, so it cannot drift out of step with the production add-to-quote script.
 - **"View All" on Other Products**, under the category grid, pointing at `/accessories/`. The grid
   shows five of more than forty categories with no way out of it.
 - **Enquiry form replaced with a contact CTA.** A ten-field form at the foot of a product page

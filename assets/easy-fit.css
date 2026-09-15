@@ -639,11 +639,8 @@ html[data-ef-page="accessories"] .elementor-1309 .elementor-element.elementor-el
   position:fixed; left:0; right:0; bottom:0; z-index:9998;
   background:#0d0d0d; border-top:2px solid var(--ef-orange);
   box-shadow:0 -12px 34px rgba(0,0,0,.6);
-  transform:translateY(115%); opacity:0; visibility:hidden;
-  transition:transform .22s ease, opacity .22s ease, visibility .22s ease;
   font-family:Montserrat,Arial,sans-serif;
 }
-.ef-sticky.is-on{transform:none; opacity:1; visibility:visible;}
 .ef-sticky__inner{
   display:flex; align-items:center; gap:14px 30px;
   box-sizing:border-box; min-height:70px; padding:12px max(18px,3vw);
@@ -699,8 +696,9 @@ html[data-ef-page="accessories"] .elementor-1309 .elementor-element.elementor-el
   background:#d96f16 !important; border-color:#d96f16 !important; transform:translateY(-1px);
 }
 .ef-sticky__cta[disabled]{opacity:.65; cursor:default; transform:none;}
-body.ef-sticky-on{padding-bottom:calc(var(--ef-sticky-h,80px) + 8px);}
-body.ef-sticky-on .ef-mockup-flag{bottom:calc(var(--ef-sticky-h,80px) + 8px);}
+/* the theme's .hellochild__body-wrap carries the spacer (set in easy-fit.js);
+   the ribbon just has to clear the bar */
+body.ef-sticky-on .ef-mockup-flag{bottom:var(--ef-sticky-h,88px);}
 
 @media (max-width:900px){
   .ef-sticky__inner{flex-wrap:wrap; gap:10px 16px; min-height:0; padding:10px 16px 12px;}

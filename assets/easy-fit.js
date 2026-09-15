@@ -472,12 +472,6 @@
     var items = specRows();
     if (!items.length) return;
 
-    var anchor =
-      document.querySelector(".ef-specs__table") ||
-      document.querySelector(".specs-wrapper") ||
-      document.querySelector(".stainless-spec-table");
-    if (!anchor) return;
-
     var h1 = document.querySelector("h1.elementor-heading-title");
     var title = (h1 && h1.textContent.trim()) || "Product";
 
@@ -556,36 +550,21 @@
       }, 250);
     });
 
-    var visible = null;
-    function show(on) {
-      if (on === visible) return;
-      visible = on;
-      bar.classList.toggle("is-on", on);
-      bar.setAttribute("aria-hidden", on ? "false" : "true");
-      document.body.classList.toggle("ef-sticky-on", on);
-      /* Reserve the bar's real height so the footer is never covered. */
-      document.documentElement.style.setProperty(
-        "--ef-sticky-h",
-        (bar.offsetHeight || 80) + "px"
-      );
+    /* Always on: the bar is the page's standing add-to-quote control, not a
+       scroll reveal, so it is shown from first paint and never hidden.
+       The theme's own .hellochild__body-wrap is the block that scrolls, so the
+       spacer keeping the footer clear of the bar goes on it, not on body. */
+    var wrap = document.querySelector(".hellochild__body-wrap") || document.body;
+    function size() {
+      var h = (bar.offsetHeight || 80) + 8;
+      document.documentElement.style.setProperty("--ef-sticky-h", h + "px");
+      wrap.style.paddingBottom = h + "px";
     }
-
-    /* A scroll listener rather than an IntersectionObserver: IO reports a
-       state CHANGE, and a jump link or a fast flick can clear a 700px table
-       between two frames without ever reporting it as intersecting. */
-    var queued = false;
-    function check() {
-      queued = false;
-      show(anchor.getBoundingClientRect().bottom < 0);
-    }
-    function onScroll() {
-      if (queued) return;
-      queued = true;
-      window.requestAnimationFrame(check);
-    }
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    check();
+    bar.classList.add("is-on");
+    bar.setAttribute("aria-hidden", "false");
+    document.body.classList.add("ef-sticky-on");
+    size();
+    window.addEventListener("resize", size);
   }
 
   /* ---------------------------------------------------------------------- */
