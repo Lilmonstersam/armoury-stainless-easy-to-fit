@@ -21,7 +21,7 @@ Hosted on GitHub Pages from
 
 Pushing to `main` runs `.github/workflows/deploy.yml`, which:
 
-1. **Verifies**: resolves every local link and asset across the six pages
+1. **Verifies**: resolves every local link and asset across the seven pages
    (`tools/check-links.py`), then fails the build if any HTML page is missing its `noindex` tag.
 2. **Deploys**: uploads the repository as-is and publishes it to Pages.
 
@@ -62,13 +62,14 @@ python3 tools/check-links.py
 
 | # | Path | Source | What it shows |
 |---|---|---|---|
-| 1 | `accessories/index.html` | Live page source | Easy Fit filter + badges + promo strip |
-| 2 | `vehicle/kenworth-k200/index.html` | Live page source | Same filter + badges on a model page |
-| 3 | `products/aircleaner-panels/index.html` | Live page source | Badge above H1, Fitting panel, persistent add bar |
-| 4 | `accessories/easy-fit/index.html` | New, built in the real shell | Curated landing page, 22 products |
-| 5 | `dealers/easy-fit-range/index.html` | New, built in the real shell | Dealer collateral, `noindex, follow` |
+| 1 | `armoury-stainless/index.html` | Saved homepage mockup | Armoury Stainless homepage + featured projects |
+| 2 | `accessories/index.html` | Live page source | Easy Fit filter + badges + promo strip |
+| 3 | `vehicle/kenworth-k200/index.html` | Live page source | Same filter + badges on a model page |
+| 4 | `products/aircleaner-panels/index.html` | Live page source | Badge above H1, Fitting panel, persistent add bar |
+| 5 | `accessories/easy-fit/index.html` | New, built in the real shell | Curated landing page, 22 products |
+| 6 | `dealers/easy-fit-range/index.html` | New, built in the real shell | Dealer collateral, `noindex, follow` |
 
-All five are reachable from page 1 via the promo strip and the route index.
+All six are reachable from the route index and the header logos return to the imported homepage.
 
 **The site's own header, mega menu, footer and button styling are used throughout.** The two new
 pages lift the production `<head>`, the real Elementor header and the real footer verbatim from the
@@ -216,6 +217,7 @@ robots.txt                     Disallow all. This mockup must not be indexed.
 tools/check-links.py           Link and asset checker. Runs locally and in CI.
 
 index.html                     Start here. Route index.
+armoury-stainless/index.html   Imported Armoury Stainless homepage.
 accessories/index.html         Page 1 (modified production source)
 accessories/easy-fit/          Page 4 (new)
 vehicle/kenworth-k200/         Page 2 (modified production source)

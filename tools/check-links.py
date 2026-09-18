@@ -18,9 +18,10 @@ import urllib.parse
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 
-# The five routes the client clicks through, plus the entry page.
+# The six routes the client clicks through, plus the entry page.
 PAGES = [
     "index.html",
+    "armoury-stainless/index.html",
     "accessories/index.html",
     "accessories/easy-fit/index.html",
     "vehicle/kenworth-k200/index.html",
