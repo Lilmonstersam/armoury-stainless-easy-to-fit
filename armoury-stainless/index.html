@@ -3227,11 +3227,10 @@ OPEN ROAD</h2>				</div>
 		.ag-proof__intro{margin:0 0 4px;color:#c8c9cc;font:500 16px/1.7 Montserrat,Arial,sans-serif}
 		.ag-proof__note{display:flex;align-items:flex-start;gap:10px;margin:0 0 30px;padding:12px 14px;border:1px solid #46484e;background:rgba(255,255,255,.035);color:#b9bbc0;font:500 12px/1.5 Montserrat,Arial,sans-serif}
 		.ag-proof__note strong{color:#fff;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap}
-		.ag-proof__grid{display:grid;grid-template-columns:1.16fr .92fr .92fr;gap:18px}
+		.ag-proof__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:stretch}
 		.ag-project{min-width:0;background:var(--ag-panel);border:1px solid var(--ag-line);display:flex;flex-direction:column;transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease}
 		.ag-project:hover{transform:translateY(-5px);border-color:#565960;box-shadow:0 22px 50px rgba(0,0,0,.28)}
 		.ag-project__media{height:250px;overflow:hidden;position:relative;background:#222}
-		.ag-project:first-child .ag-project__media{height:310px}
 		.ag-project__media:after{content:"";position:absolute;inset:auto 0 0;height:45%;background:linear-gradient(transparent,rgba(16,17,20,.62));pointer-events:none}
 		.ag-project__media img{width:100%;height:100%;display:block;object-fit:cover;transition:transform .55s cubic-bezier(.2,.7,.2,1)}
 		.ag-project:hover .ag-project__media img{transform:scale(1.035)}
@@ -3250,8 +3249,15 @@ OPEN ROAD</h2>				</div>
 		.ag-project__testimonial figcaption{margin:9px 0 0 20px;color:#8f9196;font:700 9px/1.4 Montserrat,Arial,sans-serif;letter-spacing:.11em;text-transform:uppercase}
 		.ag-proof__cta{margin-top:32px}
 		.ag-proof__cta .elementor-button{font-family:"Agency",Sans-serif!important;font-size:26px;font-weight:400;text-transform:uppercase}
-		@media(max-width:960px){.ag-proof{padding:74px 24px 82px}.ag-proof__head{grid-template-columns:1fr;gap:20px}.ag-proof__grid{grid-template-columns:1fr 1fr}.ag-project:first-child{grid-column:1/-1}.ag-project:first-child .ag-project__media{height:360px}}
-		@media(max-width:640px){.ag-proof{padding:60px 16px 66px}.ag-proof__grid{grid-template-columns:1fr}.ag-project:first-child{grid-column:auto}.ag-project__media,.ag-project:first-child .ag-project__media{height:235px}.ag-proof__note{display:block}.ag-proof__note strong{display:block;margin-bottom:5px}}
+		@supports (grid-template-rows:subgrid){
+		.ag-proof__grid{grid-template-rows:repeat(7,auto)}
+		.ag-project{display:grid;grid-template-rows:subgrid;grid-row:span 7}
+		.ag-project__body{display:grid;grid-template-rows:subgrid;grid-row:span 6}
+		.ag-project__tags{align-content:flex-start}
+		.ag-project__testimonial{margin:0}
+		}
+		@media(max-width:960px){.ag-proof{padding:74px 24px 82px}.ag-proof__head{grid-template-columns:1fr;gap:20px}.ag-proof__grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+		@media(max-width:640px){.ag-proof{padding:60px 16px 66px}.ag-proof__grid{grid-template-columns:minmax(0,1fr)}.ag-project__media{height:235px}.ag-proof__note{display:block}.ag-proof__note strong{display:block;margin-bottom:5px}}
 		</style>
 		<section class="ag-proof" aria-labelledby="stainless-featured-projects-title">
 			<div class="ag-proof__inner">
