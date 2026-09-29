@@ -9,7 +9,6 @@ applies the four approved changes:
      product category pages)
   2. Cross-links to the curated /accessories/easy-fit/ landing page
   3. Easy Fit badge + fitting section on the product page
-  4. Cross-link to the dealer-only /dealers/easy-fit-range/ page
 
 It is idempotent: re-running it re-applies cleanly because every injected
 node carries an ef- prefix and is removed first.

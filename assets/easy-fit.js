@@ -5,7 +5,7 @@
      1. "Easy Fit" as a product ATTRIBUTE + filter (not a truck type)
      2. Badge on every qualifying product card
      3. Fitting panel on product pages
-     4. Cross-links to the /accessories/easy-fit/ hub and the dealer page
+     4. Cross-links to the /accessories/easy-fit/ hub
 
    In production the attribute would be rendered server-side as a data
    attribute on each loop item (e.g. data-ef="1") and the filter would be a
@@ -213,14 +213,6 @@
     });
   }
 
-  function caption(alt) {
-    var t = (alt || "").split("|")[0].trim();
-    // drop trailing file-name style codes: "- IMG 3209", "- 20240412 085252"
-    t = t.replace(/[-–]\s*(IMG|DJI|DSC)?\s*[\d_ ]{4,}$/i, "").trim();
-    if (t.length < 12) return "";
-    return t;
-  }
-
   function buildShots(container) {
     var imgs = container.querySelectorAll(".elementor-widget-image img");
     if (imgs.length < 2) return null;
@@ -229,23 +221,32 @@
     wrap.setAttribute("data-ef-shots", "");
     var track = el("div", "ef-shots__track");
 
-    /* Several photos share the same alt text on the live site. A caption that
-       repeats on three tiles adds nothing, so only keep the unique ones. */
+    var photos = Array.prototype.slice.call(imgs);
+    var extra = document.createElement("img");
+    extra.src = ROOT + "products/aircleaner-panels/AG - Air Cleaner Panels_files/20240412_085252.jpg";
+    extra.alt = "Air cleaner panel fitted to a Kenworth Legend";
+    photos.push(extra);
     var seen = {};
-    Array.prototype.forEach.call(imgs, function (img) {
-      var c = caption(img.getAttribute("alt"));
-      if (c) seen[c] = (seen[c] || 0) + 1;
+    photos = photos.filter(function (img) {
+      var src = img.src;
+      if (seen[src]) return false;
+      seen[src] = true;
+      return true;
     });
 
-    Array.prototype.forEach.call(imgs, function (img) {
+    Array.prototype.forEach.call(photos, function (img) {
       var fig = el("figure", "ef-shots__item");
       var clone = img.cloneNode(true);
       clone.removeAttribute("width");
       clone.removeAttribute("height");
+      clone.removeAttribute("srcset");
+      clone.removeAttribute("sizes");
       clone.setAttribute("loading", "lazy");
-      fig.appendChild(clone);
-      var cap = caption(img.getAttribute("alt"));
-      if (cap && seen[cap] === 1) fig.appendChild(el("figcaption", null, cap));
+      var button = el("button", "ef-shots__open");
+      button.type = "button";
+      button.setAttribute("aria-label", "View larger: " + (img.alt || "project photo"));
+      button.appendChild(clone);
+      fig.appendChild(button);
       track.appendChild(fig);
     });
 
@@ -275,6 +276,36 @@
       }
       track.addEventListener("scroll", sync);
       window.addEventListener("resize", sync);
+      var photos = Array.prototype.slice.call(track.querySelectorAll(".ef-shots__item img"));
+      var dialog = el("dialog", "ef-photo-viewer");
+      dialog.innerHTML = '<button type="button" class="ef-photo-viewer__close" aria-label="Close photo">&times;</button>' +
+        '<button type="button" class="ef-photo-viewer__nav ef-photo-viewer__nav--prev" aria-label="Previous photo">&#8249;</button>' +
+        '<img alt=""><button type="button" class="ef-photo-viewer__nav ef-photo-viewer__nav--next" aria-label="Next photo">&#8250;</button>' +
+        '<p class="ef-photo-viewer__count"></p>';
+      document.body.appendChild(dialog);
+      var current = 0;
+      function show(index) {
+        current = (index + photos.length) % photos.length;
+        var img = photos[current];
+        var large = dialog.querySelector("img");
+        large.src = img.src;
+        large.alt = img.alt;
+        dialog.querySelector(".ef-photo-viewer__count").textContent = (current + 1) + " / " + photos.length;
+      }
+      photos.forEach(function (img, index) {
+        img.parentNode.addEventListener("click", function () {
+          show(index);
+          dialog.showModal();
+        });
+      });
+      dialog.querySelector(".ef-photo-viewer__close").addEventListener("click", function () { dialog.close(); });
+      dialog.querySelector(".ef-photo-viewer__nav--prev").addEventListener("click", function () { show(current - 1); });
+      dialog.querySelector(".ef-photo-viewer__nav--next").addEventListener("click", function () { show(current + 1); });
+      dialog.addEventListener("click", function (event) { if (event.target === dialog) dialog.close(); });
+      dialog.addEventListener("keydown", function (event) {
+        if (event.key === "ArrowLeft") show(current - 1);
+        if (event.key === "ArrowRight") show(current + 1);
+      });
       sync();
     });
   }
@@ -635,9 +666,51 @@
   /* ---------------------------------------------------------------------- */
   function productExtras() {
     if (document.documentElement.getAttribute("data-ef-page") !== "product") return;
+    productImageGallery();
     stickyBar();
     otherProductsViewAll();
     contactCta();
+  }
+
+  function productImageGallery() {
+    var hero = document.querySelector(".gallery-slider-top .elementor-widget-container");
+    var thumbs = document.querySelector(".gallery-slider .elementor-widget-container");
+    if (!hero || !thumbs) return;
+    var photos = [
+      ["ACP610-FL.png", "T610 air cleaner panel, front facing"],
+      ["ACP909-FL.png", "T909 air cleaner panel, front facing"],
+      ["../../accessories/AG - Accessories_files/aircleaner-panel-rear-610-min.png", "T610 air cleaner panel, rear facing"],
+      ["../../accessories/AG - Accessories_files/aircleaner-panel-909-min.png", "T909 air cleaner panel fitted"],
+    ];
+    var folder = "./AG - Air Cleaner Panels_files/";
+    var main = el("img", "ef-product-gallery__main");
+    var list = el("div", "ef-product-gallery__thumbs");
+    hero.closest(".gallery-slider-top").classList.remove("gallery-slider-top");
+    thumbs.closest(".gallery-slider").classList.remove("gallery-slider");
+    hero.parentNode.classList.add("ef-product-gallery--hero");
+    thumbs.parentNode.classList.add("ef-product-gallery--thumbs");
+    hero.replaceChildren(main);
+    thumbs.replaceChildren(list);
+    function select(index) {
+      main.src = photos[index][0].indexOf("../") === 0 ? photos[index][0] : folder + photos[index][0];
+      main.alt = photos[index][1];
+      Array.prototype.forEach.call(list.children, function (button, i) {
+        button.classList.toggle("is-active", i === index);
+        button.setAttribute("aria-pressed", i === index ? "true" : "false");
+      });
+    }
+    photos.forEach(function (photo, index) {
+      var button = el("button", "ef-product-gallery__thumb");
+      button.type = "button";
+      button.setAttribute("aria-label", "Show " + photo[1]);
+      var img = document.createElement("img");
+      img.src = photo[0].indexOf("../") === 0 ? photo[0] : folder + photo[0];
+      img.alt = "";
+      button.appendChild(img);
+      button.addEventListener("click", function () { select(index); });
+      list.appendChild(button);
+    });
+    select(0);
   }
 
   /* ---------------------------------------------------------------------- */
@@ -703,9 +776,6 @@
       '<a class="ef-btn" href="' +
       ROOT +
       'accessories/easy-fit/index.html">View the Easy Fit range</a>' +
-      '<a class="ef-btn" href="' +
-      ROOT +
-      'dealers/easy-fit-range/index.html">Dealers: stock this range</a>' +
       "</div>";
     bar.parentNode.insertBefore(promo, bar.nextSibling);
   }

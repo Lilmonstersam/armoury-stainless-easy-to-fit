@@ -26,7 +26,6 @@ PAGES = [
     "accessories/easy-fit/index.html",
     "vehicle/kenworth-k200/index.html",
     "products/aircleaner-panels/index.html",
-    "dealers/easy-fit-range/index.html",
 ]
 
 # Schemes and artefacts that are not local files.

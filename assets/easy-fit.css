@@ -259,7 +259,7 @@ html[data-ef-page="accessories"] .elementor-1309 .elementor-element.elementor-el
    -------------------------------------------------------------------------- */
 
 /* project photo carousel band */
-.ef-shotsband{background:#000; padding:0 var(--ef-gutter) 8px;}
+.ef-shotsband{position:relative; left:50%; width:100vw; margin-left:-50vw; background:#000; padding:0 0 8px;}
 .ef-shotsband__inner{max-width:none; margin:0;}
 
 .ef-shots{position:relative;}
@@ -272,19 +272,30 @@ html[data-ef-page="accessories"] .elementor-1309 .elementor-element.elementor-el
 .ef-shots__track::-webkit-scrollbar-track{background:#1c1c1c;}
 .ef-shots__track::-webkit-scrollbar-thumb{background:var(--ef-orange);}
 .ef-shots__item{
-  flex:0 0 calc(33.333% - 11px); scroll-snap-align:start; margin:0;
+  flex:0 0 clamp(230px,23vw,390px); scroll-snap-align:start; margin:0;
   position:relative; background:#000; border:1px solid var(--ef-line); overflow:hidden;
 }
+.ef-shots__open{display:block; width:100%; padding:0; border:0; background:none; cursor:zoom-in;}
+.ef-shots__open:focus-visible{outline:3px solid var(--ef-orange); outline-offset:-3px;}
 .ef-shots__item img{
   display:block; width:100%; height:260px; object-fit:cover; transition:transform .4s ease;
 }
 .ef-shots__item:hover img{transform:scale(1.05);}
-.ef-shots__item figcaption{
-  position:absolute; left:0; right:0; bottom:0;
-  background:linear-gradient(transparent,rgba(0,0,0,.88));
-  padding:40px 16px 14px; color:#fff;
-  font:600 11.5px/1.45 Montserrat,Arial,sans-serif; letter-spacing:.02em;
-}
+.ef-photo-viewer{position:fixed; inset:0; width:min(96vw,1500px); max-width:none; max-height:96vh; padding:48px 64px 36px; border:1px solid #666; background:#090909; color:#fff; text-align:center;}
+.ef-photo-viewer::backdrop{background:rgba(0,0,0,.9);}
+.ef-photo-viewer img{display:block; width:100%; height:calc(96vh - 120px); object-fit:contain;}
+.ef-photo-viewer__close,.ef-photo-viewer__nav{position:absolute; border:0; background:rgba(0,0,0,.75); color:#fff; cursor:pointer;}
+.ef-photo-viewer__close{top:8px; right:12px; width:40px; height:40px; font-size:30px;}
+.ef-photo-viewer__nav{top:50%; transform:translateY(-50%); width:48px; height:56px; font-size:38px;}
+.ef-photo-viewer__nav--prev{left:8px;}.ef-photo-viewer__nav--next{right:8px;}
+.ef-photo-viewer__close:hover,.ef-photo-viewer__nav:hover{background:var(--ef-orange);}
+.ef-photo-viewer__count{margin:6px 0 0; font:600 12px Montserrat,Arial,sans-serif;}
+.ef-product-gallery--hero .ef-product-gallery__main{display:block; width:100%; height:clamp(280px,40vw,540px); object-fit:contain; background:#070707;}
+.ef-product-gallery--thumbs .ef-product-gallery__thumbs{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin-top:12px;}
+.ef-product-gallery--thumbs .ef-product-gallery__thumb{padding:6px; border:2px solid #333; background:#111; cursor:pointer;}
+.ef-product-gallery--thumbs .ef-product-gallery__thumb.is-active,.ef-product-gallery--thumbs .ef-product-gallery__thumb:hover{border-color:var(--ef-orange);}
+.ef-product-gallery--thumbs .ef-product-gallery__thumb:focus-visible{outline:3px solid var(--ef-orange); outline-offset:2px;}
+.ef-product-gallery--thumbs .ef-product-gallery__thumb img{display:block; width:100%; height:90px; object-fit:contain;}
 .ef-shots__nav{
   position:absolute; top:calc(50% - 5px); transform:translateY(-50%); z-index:3;
   width:44px; height:44px; border:0; padding:0; cursor:pointer;
@@ -382,13 +393,17 @@ html[data-ef-page="accessories"] .elementor-1309 .elementor-element.elementor-el
 
 @media (max-width:1200px){
   .ef-specs__grid{grid-template-columns:1fr;}
-  .ef-shots__item{flex:0 0 calc(50% - 8px);}
+  .ef-shots__item{flex:0 0 clamp(230px,36vw,390px);}
 }
 @media (max-width:760px){
   .ef-specs{padding:44px var(--ef-gutter) 52px;}
   .ef-specs__details,.ef-specs__tablecol{padding:24px 20px;}
   .ef-shots__item{flex:0 0 88%;}
   .ef-shots__item img{height:200px;}
+  .ef-photo-viewer{width:100vw; max-height:100vh; padding:48px 45px 32px;}
+  .ef-photo-viewer img{height:calc(100vh - 100px);}
+  .ef-product-gallery--thumbs .ef-product-gallery__thumbs{gap:6px;}
+  .ef-product-gallery--thumbs .ef-product-gallery__thumb img{height:58px;}
   .ef-specs__table .stainless-spec-row{
     grid-template-columns:1fr !important; row-gap:6px; align-items:start !important;
   }
@@ -582,12 +597,6 @@ html[data-ef-page="accessories"] .elementor-1309 .elementor-element.elementor-el
   margin:0 0 22px !important; padding-right:48px;
   font:400 14px/1.75 Montserrat,Arial,sans-serif !important; color:#a9a9a9 !important;
 }
-
-/* dealer page bits */
-.ef-stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:1px; background:var(--ef-line); border:1px solid var(--ef-line);}
-.ef-stats div{background:#000; padding:30px 24px;}
-.ef-stats b{display:block; font:400 46px/1 Agency,Montserrat,Arial,sans-serif; color:var(--ef-orange); margin-bottom:10px;}
-.ef-stats span{font:700 11.5px/1.45 Montserrat,Arial,sans-serif; letter-spacing:.09em; text-transform:uppercase; color:var(--ef-mute);}
 
 /* route index (mockup entry page) */
 .ef-routes{list-style:none; margin:0; padding:0; border-top:1px solid var(--ef-line);}

@@ -21,7 +21,7 @@ Hosted on GitHub Pages from
 
 Pushing to `main` runs `.github/workflows/deploy.yml`, which:
 
-1. **Verifies**: resolves every local link and asset across the seven pages
+1. **Verifies**: resolves every local link and asset across the six pages
    (`tools/check-links.py`), then fails the build if any HTML page is missing its `noindex` tag.
 2. **Deploys**: uploads the repository as-is and publishes it to Pages.
 
@@ -67,12 +67,11 @@ python3 tools/check-links.py
 | 3 | `vehicle/kenworth-k200/index.html` | Live page source | Same filter + badges on a model page |
 | 4 | `products/aircleaner-panels/index.html` | Live page source | Badge above H1, Fitting panel, persistent add bar |
 | 5 | `accessories/easy-fit/index.html` | New, built in the real shell | Curated landing page, 22 products |
-| 6 | `dealers/easy-fit-range/index.html` | New, built in the real shell | Dealer collateral, `noindex, follow` |
 
-All six are reachable from the route index and the header logos return to the imported homepage.
+All five are reachable from the route index and the header logos return to the imported homepage.
 
-**The site's own header, mega menu, footer and button styling are used throughout.** The two new
-pages lift the production `<head>`, the real Elementor header and the real footer verbatim from the
+**The site's own header, mega menu, footer and button styling are used throughout.** The new
+page lifts the production `<head>`, the real Elementor header and the real footer verbatim from the
 saved K200 page, so nothing about the navigation is an approximation. The primary menu is left
 untouched on every page: in production, "Easy Fit" would be added to it as a normal menu item.
 
@@ -143,9 +142,8 @@ Two template fixes were made on this page at the same time:
   column, so the variants table (which needs roughly 820px) scrolled sideways and the project photos
   sat in a cramped static grid underneath. The page now runs:
 
-  1. H1 and product renders (production, untouched)
-  2. Project photos as a full-width horizontal carousel, no heading, scroll-snapped three across
-     with arrow navigation
+  1. H1 and product renders with four selectable thumbnails
+  2. Four distinct project photos in a page-wide horizontal carousel, with arrow navigation and larger views
   3. **Product Specs**, two columns side by side: the description, Key Advantages and Installation
      on the left, the "Sizes, part numbers and models" variants table and View quote on the right,
      so the whole product reads in one screen
@@ -171,14 +169,6 @@ All of these should be applied to every product page, not just this one.
 This is the highest-leverage item in the whole plan. Thirteen product pages already rank for
 roughly 1,300 searches a month between them and none of them currently says anything about
 fitting. The same panel should go on all of them.
-
-### 4. Dealer page at `/dealers/easy-fit-range/`
-
-Set to `noindex, follow`, linked from the dealer navigation only. Counter proposition, best
-counter lines, and how to sell it. The reseller message has no organic demand in Australia, so
-this page exists for email, the counter-display QR code and dealer onboarding, not for search.
-
----
 
 ## Internal notes
 
@@ -222,7 +212,6 @@ accessories/index.html         Page 1 (modified production source)
 accessories/easy-fit/          Page 4 (new)
 vehicle/kenworth-k200/         Page 2 (modified production source)
 products/aircleaner-panels/    Page 3 (modified production source)
-dealers/easy-fit-range/        Page 5 (new)
 assets/easy-fit-data.js        THE dataset. Edit fitting times and flags here only.
 assets/easy-fit.css            All Easy Fit styling, using the live theme's brand tokens.
 assets/easy-fit.js             Filter, badges, fitting panel, breadcrumbs, Product Specs
@@ -230,8 +219,8 @@ assets/easy-fit.js             Filter, badges, fitting panel, breadcrumbs, Produ
                                page's persistent add bar, Other Products "View All" and the
                                contact CTA that replaces the enquiry form.
 build-mockup.py                Re-applies the Easy Fit layer to the three production pages.
-build-newpages.py              Regenerates the route index, the landing page and the dealer
-                               page, each inside the real site shell, from the dataset.
+build-newpages.py              Regenerates the route index and the Easy Fit landing page
+                               inside the real site shell, from the dataset.
 ```
 
 To change the data and rebuild:

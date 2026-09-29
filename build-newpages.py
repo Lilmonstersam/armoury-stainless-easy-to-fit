@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
 """
-Builds the two NEW pages in the Easy Fit mockup:
-  /accessories/easy-fit/     - curated, indexable landing page (approved item 2)
-  /dealers/easy-fit-range/   - reseller sales collateral, noindex (approved item 4)
+Builds the Easy Fit landing page and route index.
 
-Both are built INSIDE the real site shell: the production <head>, the real
+The new page is built INSIDE the real site shell: the production <head>, the real
 Elementor header/mega-menu and the real footer are lifted verbatim from the
 saved Kenworth K200 page, so the navigation, typography, brand colours and
 button styling are the site's own, not an approximation.
@@ -352,7 +350,6 @@ cta = sec(
       'see only what you can fit yourself.</p>'
       '<div class="ef-btnrow ef-btnrow--center">'
     + btn("Browse by truck model", "../../accessories/index.html?fit=easy")
-    + btn("Dealers: stock this range", "../../dealers/easy-fit-range/index.html")
     + "</div>", "ef-sec--cta")
 
 
@@ -380,93 +377,7 @@ print("built: accessories/easy-fit/index.html  (%d products, %d gallery slides)"
 
 
 # =============================================================================
-# 2. /dealers/easy-fit-range/
-# =============================================================================
-top2, bottom2 = load_shell()
-counter = [(s, m) for s, m in EASY if m["time"] in ("10 min", "15 min", "20 min", "25 min")]
-
-dealer_cards = "".join(product_card(s, m) for s, m in counter)
-
-d_hero = sec(
-    '<div class="ef-hero-grid">'
-    '<div class="ef-hero-copy">'
-    '<p class="ef-kicker">Dealer information</p>'
-    '<h1 class="elementor-heading-title elementor-size-default">Stock the Easy Fit range</h1>'
-    f'<h4 class="ef-hero-sub">{len(EASY)} bolt-on products. No fitting bay required.</h4>'
-    '<p class="ef-hero-body">The Easy Fit range is built to sell over the counter. Every product bolts to '
-    'factory mounting points, so a driver can walk out with it and fit it in the yard the same afternoon. '
-    'No booking, no fitting labour, no lead time on your workshop.</p>'
-    '<div class="ef-btnrow">'
-    + btn("Request a stocking pack", "mailto:sales@armourygroup.com.au?subject=Easy%20Fit%20range%20enquiry")
-    + '</div></div>'
-    '<div class="ef-hero-gal">' + gallery(GALLERY[:6]) + '</div>'
-    '</div>', "ef-sec--hero")
-
-d_strip = ('<div class="ef-trust"><ul>'
-           f'<li><b>{len(EASY)} products</b><span>The full bolt-on range, all of it counter-ready</span></li>'
-           f'<li><b>{len(counter)} quick lines</b><span>Under 25 minutes to fit, ideal over the counter</span></li>'
-           '<li><b>No bay time</b><span>Sells without consuming a single workshop hour</span></li>'
-           '<li><b>Stocked locally</b><span>Australian made, dispatched from Penrith and Epping</span></li>'
-           '</ul></div>')
-
-d_prop = sec(
-    h2("The counter proposition")
-    + '<p class="ef-lede">Traditional stainless accessories need a fitting bay, which turns every sale into a '
-      'scheduling conversation. Easy Fit removes that step entirely.</p>'
-      '<div class="ef-stats">'
-      f'<div><b>{len(EASY)}</b><span>Bolt-on products</span></div>'
-      '<div><b>10&ndash;40</b><span>Minutes to fit</span></div>'
-      '<div><b>0</b><span>Workshop hours consumed</span></div>'
-      '<div><b>100%</b><span>Fasteners included</span></div>'
-      '</div>', "ef-sec--dark")
-
-d_grid = sec(
-    h2("Best counter lines")
-    + '<p class="ef-lede">The quickest-fitting products in the range. These are the ones a driver will buy on '
-      'the spot rather than book in for.</p>'
-      '<div class="ef-grid" role="list">'
-    + dealer_cards + "</div>", "ef-sec--range")
-
-d_sell = sec(
-    h2("How to sell it")
-    + '<div class="ef-steps">'
-      '<div class="ef-step"><span>01</span><h3>Lead with the time</h3>'
-      '<p>"Twenty minutes with a socket set, and you can do it in the yard." The fitting time is the whole '
-      'pitch. Every product page and the range page publish it.</p></div>'
-      '<div class="ef-step"><span>02</span><h3>Point at the badge</h3>'
-      '<p>The orange Easy Fit badge appears on every qualifying product across armourygroup.com.au. Send '
-      'drivers to the filter and let them shortlist themselves.</p></div>'
-      '<div class="ef-step"><span>03</span><h3>Fitting is still an option</h3>'
-      '<p>Easy Fit does not take work off you. It converts the customers who would otherwise walk away '
-      'because they could not book the truck in.</p></div>'
-      '</div>', "ef-sec--dark")
-
-d_cta = sec(
-    h2("Request a stocking pack")
-    + '<p class="ef-lede ef-lede--center">Counter display, QR code to the range page, and the full Easy Fit '
-      'line list with trade pricing.</p><div class="ef-btnrow ef-btnrow--center">'
-    + btn("Email sales@armourygroup.com.au",
-          "mailto:sales@armourygroup.com.au?subject=Easy%20Fit%20range%20enquiry")
-    + "</div>", "ef-sec--cta")
-
-
-d_content = ('<div class="ef-page-content">'
-             + crumbs([("Home", "../../accessories/index.html"),
-                       ("Dealers", None), ("Easy Fit range", None)])
-             + d_hero + d_strip + d_prop + d_grid + d_sell + d_cta + "</div>")
-
-page2 = head_swap(
-    top2, "Easy Fit Range | Dealer Information | Armoury Group",
-    "Dealer information for the Armoury Easy Fit range.",
-    robots="noindex, follow", page="dealer")
-
-(ROOT / "dealers" / "easy-fit-range" / "index.html").write_text(
-    page2 + d_content + bottom2, encoding="utf-8")
-print("built: dealers/easy-fit-range/index.html  (%d counter lines)" % len(counter))
-
-
-# =============================================================================
-# 3. Mockup route index (also inside the real shell)
+# 2. Mockup route index (also inside the real shell)
 # =============================================================================
 top3, bottom3 = load_shell()
 
@@ -474,7 +385,7 @@ ROUTES = [
     ("01", "/accessories/", "./accessories/index.html",
      "Existing page. Adds the <strong>Easy Fit filter bar</strong> above the grids, the orange "
      "<strong>Easy Fit badge</strong> on all qualifying product cards across all 14 truck-model sections, "
-     "and a promo strip linking to the landing page and the dealer page. Tick the filter and empty sections "
+     "and a promo strip linking to the landing page. Tick the filter and empty sections "
      "collapse. State is written to the URL as <code>?fit=easy</code>."),
     ("02", "/vehicle/kenworth-k200/", "./vehicle/kenworth-k200/index.html",
      "Existing page. Same filter and badges, proving the attribute works on a model page without adding a "
@@ -486,9 +397,6 @@ ROUTES = [
     ("04", "/accessories/easy-fit/", "./accessories/easy-fit/index.html",
      "New page, built inside the real site shell. Hero gallery of installed work, the range as a product grid "
      "with fitting detail on each card, how-it-works, FAQ, and <code>ItemList</code> + <code>FAQPage</code> JSON-LD."),
-    ("05", "/dealers/easy-fit-range/", "./dealers/easy-fit-range/index.html",
-     "New page, same shell. Dealer sales collateral, set to <code>noindex, follow</code>. Counter proposition, "
-     "best counter lines and how to sell it."),
 ]
 
 route_html = "".join(
@@ -499,9 +407,9 @@ route_html = "".join(
 i_hero = sec(
     '<p class="ef-kicker">Digilari &middot; Armoury Group</p>'
     '<h1 class="elementor-heading-title elementor-size-default">Easy Fit range mockup</h1>'
-    '<h4 class="ef-hero-sub">All four approved items, applied to the real site code.</h4>'
+    '<h4 class="ef-hero-sub">The Easy Fit range, applied to the real site code.</h4>'
     '<p class="ef-hero-body">Start at All Products and click through. The three existing pages are the live '
-    'Armoury page source with the Easy Fit layer applied on top. The two new pages are built inside the same '
+    'Armoury page source with the Easy Fit layer applied on top. The new landing page is built inside the same '
     'header, footer and theme, so the navigation and styling are the site\'s own.</p>'
     '<div class="ef-btnrow">' + btn("Start here: All Products", "./accessories/index.html") + '</div>',
     "ef-sec--hero")
