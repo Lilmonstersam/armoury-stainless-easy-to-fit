@@ -34,7 +34,9 @@ SKIP_PREFIXES = (
     "javascript:", "chrome-extension:", "${",
 )
 
-ATTR = re.compile(r'(?:href|src)="([^"]+)"')
+# Match real href/src attributes, not suffixes of preview-only data attributes
+# such as data-ag-preview-href (the sibling checkout is absent in CI).
+ATTR = re.compile(r'(?<![\w:-])(?:href|src)="([^"]+)"')
 
 
 def check_page(rel: str) -> list[str]:
