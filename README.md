@@ -3,6 +3,31 @@
 Prepared by Digilari Media, September 2026. Implements the four approved items on top of
 the real armourygroup.com.au page source.
 
+Trust content updated 15 October 2026: the homepage now uses the supplied Hallam
+Truck Centre and Mars-Haul accounts. Customer project photos and illustrative range
+images are captioned accordingly. All six pages include the supplied Armoury Group
+ISO certification statement for quality, environmental and safety, with the supplied
+ISO 14001 environmental management badge. No unspecified quality or safety standard
+numbers have been added. Styling and customer imagery are local in
+`assets/trust-signals.css` and `assets/trust/`.
+
+After regenerating pages, run `tools/update-trust-signals.py` from the parent
+Armoury Group workspace (Python with `lxml`). The source mapping is recorded in
+that workspace's `tools/trust-signal-sources.md`.
+
+Header, mega-menu, range and footer links use the local homepage, accessories,
+Easy Fit, K200 and air-cleaner pages where those routes exist. The AS/Wheels
+switch uses the sibling mockup during local previews, and the other mockup's
+GitHub Pages URL after deployment. Pages outside the mockup retain their live
+destinations. This behaviour is in `assets/mockup-navigation.js`.
+
+The accessories hub has a sticky truck-model navigator below the site header.
+It is built from the 14 existing model sections: horizontal shortcuts on desktop
+and a labelled selector on mobile. It highlights the current model, supports
+shareable links such as `#truck-model-k200`, and hides models with no results when
+Easy Fit is selected. Heading offsets account for both the header and navigator.
+Behaviour and styling live in `assets/easy-fit.js` and `assets/easy-fit.css`.
+
 **Open `index.html` in a browser and click through from there.** Everything works from
 `file://`, no server needed, and identically from GitHub Pages.
 

@@ -113,6 +113,33 @@ html[data-ef-page="accessories"] .elementor-1309 .elementor-element.elementor-el
 }
 .ef-filterbar__clear[hidden]{display:none !important;}
 
+/* Accessories: truck-model shortcuts sit below the site's fixed header. */
+.ef-modelnav-slot{position:relative;width:100%;min-width:0;z-index:9;}
+.ef-modelnav{position:relative;z-index:9;width:100%;background:#111214;color:#fff;border-bottom:1px solid var(--ef-line);font-family:Montserrat,Arial,sans-serif;box-sizing:border-box;}
+.ef-modelnav.is-pinned{position:fixed;box-shadow:0 6px 18px rgba(0,0,0,.25);}
+.ef-modelnav__inner{display:flex;align-items:center;gap:12px;min-height:68px;margin:0;padding:8px var(--ef-gutter);box-sizing:border-box;}
+.ef-modelnav__label{flex:0 0 auto;margin-right:10px;color:var(--ef-orange);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;}
+.ef-modelnav__links{display:flex;gap:4px;min-width:0;flex:1;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:#656565 transparent;}
+.ef-modelnav__link{display:block;flex:0 0 auto;padding:13px 14px 11px;border-bottom:2px solid transparent;color:#d4d4d4!important;text-decoration:none!important;white-space:nowrap;font-size:12px;font-weight:700;line-height:1.2;}
+.ef-modelnav__link:hover{color:var(--ef-orange)!important;border-color:#797979;}
+.ef-modelnav__link[aria-current="location"]{color:var(--ef-orange)!important;border-color:var(--ef-orange);background:rgba(245,130,32,.08);}
+.ef-modelnav__link[hidden]{display:none!important;}
+.ef-modelnav__arrow{display:grid;place-items:center;flex:0 0 36px;width:36px;height:40px;padding:0!important;background:transparent!important;border:1px solid #484848!important;border-radius:0;color:#fff!important;font:400 28px/1 Arial,sans-serif;cursor:pointer;}
+.ef-modelnav__arrow:disabled{opacity:.25;cursor:default;}
+.ef-modelnav__arrow:not(:disabled):hover{border-color:var(--ef-orange)!important;color:var(--ef-orange)!important;}
+.ef-modelnav__select{display:none;}
+.ef-modelnav a:focus-visible,.ef-modelnav button:focus-visible,.ef-modelnav select:focus-visible{outline:2px solid var(--ef-orange);outline-offset:2px;}
+.ef-model-section{scroll-margin-top:var(--ef-model-offset,170px);}
+.ef-model-section .elementor-heading-title[tabindex="-1"]:focus:not(:focus-visible){outline:none;}
+.ef-model-section .elementor-heading-title[tabindex="-1"]:focus-visible{outline:2px solid var(--ef-orange);outline-offset:6px;}
+@media(max-width:767px){
+ .ef-modelnav__inner{gap:14px;min-height:66px;padding:10px 24px;}
+ .ef-modelnav__label{margin:0;font-size:10px;max-width:65px;line-height:1.5;}
+ .ef-modelnav__links,.ef-modelnav__arrow{display:none;}
+ .ef-modelnav__select{display:block;min-width:0;flex:1;width:100%;height:44px;padding:9px 30px 9px 12px;background:#1d1f22;color:#fff;border:1px solid #535353;border-radius:0;font:600 13px/1.4 Montserrat,Arial,sans-serif;}
+ .ef-modelnav__select option{background:#1d1f22;color:#fff;}
+}
+
 /* ==========================================================================
    2. PRODUCT CARD BADGE
    ========================================================================== */

@@ -135,6 +135,184 @@
     } catch (e) {
       /* file:// - ignore */
     }
+    document.dispatchEvent(new CustomEvent("ef:filterchange"));
+  }
+
+  /* Truck-model shortcuts belong to the accessories hub only. The saved
+     theme wraps the page in overflow:hidden, so move the pinned bar to the
+     body and reserve its original space rather than relying on sticky. */
+  function truckModelNavigation() {
+    if (document.documentElement.getAttribute("data-ef-page") !== "accessories") return;
+    var archive = document.querySelector('.elementor-location-archive');
+    if (!archive || document.querySelector('.ef-modelnav')) return;
+    var models = [];
+    Array.prototype.forEach.call(archive.children, function (section) {
+      if (!section.classList.contains('e-parent') || !section.querySelector('.elementor-loop-container')) return;
+      var headings = section.querySelectorAll(':scope > .elementor-widget-heading .elementor-heading-title, :scope > .e-con-inner > .elementor-widget-heading .elementor-heading-title');
+      if (!headings.length) return;
+      var label = headings[0].textContent.trim().replace(/\s+/g, ' ');
+      if (/^universal$/i.test(label)) label = 'Universal';
+      if (/^volvo$/i.test(label)) label = 'Volvo';
+      if (/^legend sar$/i.test(label)) label = 'Legend SAR';
+      section.id = 'truck-model-' + label.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+      section.classList.add('ef-model-section');
+      models.push({ label: label, section: section, heading: headings[0] });
+    });
+    if (models.length < 2) return;
+
+    var slot = el('div', 'ef-modelnav-slot');
+    var nav = el('nav', 'ef-modelnav');
+    nav.setAttribute('aria-label', 'Truck model sections');
+    nav.innerHTML = '<div class="ef-modelnav__inner"><span class="ef-modelnav__label">Truck model</span>' +
+      '<button class="ef-modelnav__arrow" type="button" data-model-prev aria-label="Show previous truck models">&#8249;</button>' +
+      '<div class="ef-modelnav__links" id="ef-model-links"></div>' +
+      '<button class="ef-modelnav__arrow" type="button" data-model-next aria-label="Show more truck models">&#8250;</button>' +
+      '<select class="ef-modelnav__select" aria-label="Jump to truck model"><option value="">Choose truck model</option></select></div>';
+    var links = nav.querySelector('.ef-modelnav__links');
+    var select = nav.querySelector('select');
+    var previous = nav.querySelector('[data-model-prev]');
+    var next = nav.querySelector('[data-model-next]');
+    var pinned = false;
+    var pending = false;
+    var current = null;
+    var inputVersion = 0;
+    var jumpVersion = 0;
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    ['wheel', 'touchstart', 'pointerdown', 'keydown'].forEach(function (event) {
+      window.addEventListener(event, function () { inputVersion++; }, {passive: true});
+    });
+
+    models.forEach(function (model) {
+      model.link = el('a', 'ef-modelnav__link');
+      model.link.textContent = model.label;
+      model.link.href = '#' + model.section.id;
+      links.appendChild(model.link);
+      model.option = el('option');
+      model.option.value = model.section.id;
+      model.option.textContent = model.label;
+      select.appendChild(model.option);
+      model.link.addEventListener('click', function (event) {
+        event.preventDefault();
+        jump(model, true, true);
+      });
+    });
+    slot.appendChild(nav);
+    archive.insertBefore(slot, archive.firstChild);
+
+    function headerBottom() {
+      // Use the header row's declared bar height. The saved mega-menu boxes
+      // can inflate its bounds while their vendor scripts initialise.
+      var row = document.querySelector('[data-elementor-type="header"] [data-id="3b80f726"]');
+      if (!row) return 0;
+      var style = window.getComputedStyle(row);
+      var height = parseFloat(style.minHeight) || 80;
+      return Math.max(0, row.getBoundingClientRect().top) + height + (parseFloat(style.borderBottomWidth) || 0);
+    }
+    function arrows() {
+      previous.disabled = links.scrollLeft < 2;
+      next.disabled = links.scrollLeft + links.clientWidth >= links.scrollWidth - 2;
+    }
+    function activate(model) {
+      if (model === current) return;
+      current = model;
+      models.forEach(function (entry) {
+        if (entry === model) entry.link.setAttribute('aria-current', 'location');
+        else entry.link.removeAttribute('aria-current');
+      });
+      select.value = model ? model.section.id : '';
+      if (model && links.clientWidth) {
+        var item = model.link.getBoundingClientRect();
+        var track = links.getBoundingClientRect();
+        if (item.left < track.left || item.right > track.right) links.scrollLeft += item.left - track.left - 12;
+      }
+      arrows();
+    }
+    function update() {
+      pending = false;
+      var top = headerBottom();
+      var rect = slot.getBoundingClientRect();
+      var shouldPin = rect.top <= top + 1;
+      if (shouldPin !== pinned) {
+        pinned = shouldPin;
+        nav.classList.toggle('is-pinned', pinned);
+        (pinned ? document.body : slot).appendChild(nav);
+      }
+      if (pinned) {
+        nav.style.top = top + 'px';
+        nav.style.left = rect.left + 'px';
+        nav.style.width = rect.width + 'px';
+      } else {
+        nav.style.top = nav.style.left = nav.style.width = '';
+      }
+      slot.style.height = nav.offsetHeight + 'px';
+      document.documentElement.style.setProperty('--ef-model-offset', (top + nav.offsetHeight + 20) + 'px');
+      var active = null;
+      models.forEach(function (model) {
+        if (model.available && model.heading.getBoundingClientRect().top <= top + nav.offsetHeight + 40) active = model;
+      });
+      activate(active);
+      arrows();
+    }
+    function schedule() {
+      if (!pending) { pending = true; window.requestAnimationFrame(update); }
+    }
+    function availability() {
+      models.forEach(function (model) {
+        model.available = !!model.section.querySelector('.e-loop-item:not(.ef-hidden)');
+        model.link.hidden = !model.available;
+        model.option.hidden = !model.available;
+        model.option.disabled = !model.available;
+      });
+      schedule();
+    }
+    function jump(model, smooth, remember) {
+      if (!model || !model.available) return;
+      update();
+      if (remember) {
+        try { window.history.pushState(null, '', '#' + model.section.id); } catch (e) {}
+      }
+      var animate = smooth && !reduced.matches;
+      var intent = inputVersion;
+      var version = ++jumpVersion;
+      var y = window.scrollY + model.heading.getBoundingClientRect().top - headerBottom() - nav.offsetHeight - 20;
+      function align() {
+        if (window.location.hash !== '#' + model.section.id || intent !== inputVersion || version !== jumpVersion) return;
+        var shift = model.heading.getBoundingClientRect().top - headerBottom() - nav.offsetHeight - 20;
+        // Legacy responsive grids can settle after the jump. Stop correcting
+        // as soon as the user makes another scroll or keyboard gesture.
+        if (Math.abs(shift) >= 1) window.scrollBy({top: shift, behavior: 'instant'});
+      }
+      if (animate) window.addEventListener('scrollend', align, {once: true});
+      window.scrollTo({ top: Math.max(0, y), behavior: animate ? 'smooth' : 'instant' });
+      if (remember) {
+        model.heading.setAttribute('tabindex', '-1');
+        model.heading.focus({preventScroll: true});
+      }
+      if (!animate) {
+        window.requestAnimationFrame(function () { window.requestAnimationFrame(align); });
+        window.setTimeout(align, 450);
+      }
+    }
+    function hashJump() {
+      jump(models.find(function (model) { return '#' + model.section.id === window.location.hash; }), false, false);
+    }
+    select.addEventListener('change', function () {
+      jump(models.find(function (model) { return model.section.id === select.value; }), true, true);
+    });
+    previous.addEventListener('click', function () { links.scrollBy({left: -links.clientWidth * .75, behavior: reduced.matches ? 'instant' : 'smooth'}); });
+    next.addEventListener('click', function () { links.scrollBy({left: links.clientWidth * .75, behavior: reduced.matches ? 'instant' : 'smooth'}); });
+    links.addEventListener('scroll', arrows, {passive: true});
+    document.addEventListener('ef:filterchange', availability);
+    window.addEventListener('scroll', schedule, {passive: true});
+    window.addEventListener('resize', schedule);
+    window.addEventListener('hashchange', hashJump);
+    window.addEventListener('popstate', hashJump);
+    window.addEventListener('load', function () { update(); hashJump(); });
+    if (window.ResizeObserver) new ResizeObserver(schedule).observe(nav);
+    if (document.fonts) document.fonts.ready.then(schedule);
+    availability();
+    update();
+    hashJump();
   }
 
   /* ---------------------------------------------------------------------- */
@@ -820,6 +998,7 @@
         apply(on, counts);
       }
     }
+    truckModelNavigation();
     mockupFlag();
   }
 
