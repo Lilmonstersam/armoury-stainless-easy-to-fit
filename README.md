@@ -31,6 +31,10 @@ Behaviour and styling live in `assets/easy-fit.js` and `assets/easy-fit.css`.
 **Open `index.html` in a browser and click through from there.** Everything works from
 `file://`, no server needed, and identically from GitHub Pages.
 
+Homepage update, 19 October 2026: the separate Aussie Made section has been
+consolidated into Quality to rely on. Industry heritage, Australian-made
+accessories copy and the Our Story link remain in that combined section.
+
 > **This site must never be indexed.** It reproduces large parts of armourygroup.com.au, so an
 > indexed copy would compete with the client's own site for their own terms. Every page carries
 > `noindex, nofollow`, `robots.txt` disallows everything, and CI fails the build if any page loses

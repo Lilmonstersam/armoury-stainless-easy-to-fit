@@ -7,6 +7,11 @@
 .ag-trust__head,.ag-stories__head{display:grid;grid-template-columns:1.12fr .88fr;gap:40px;align-items:end;margin-bottom:36px}
 .ag-trust h2,.ag-stories h2,.ag-voices h2{font-family:ArmouryTrust,Agency,"Arial Narrow",sans-serif;font-weight:400;font-size:clamp(42px,4.6vw,72px);line-height:.98;text-transform:uppercase;color:#fff;margin:0}
 .ag-trust h2 span{color:var(--orange)}
+.ag-trust__heritage{margin:20px 0 0;color:var(--orange);font-size:11px;font-weight:700;line-height:1.6;letter-spacing:.14em;text-transform:uppercase}
+.ag-trust__intro p{margin:0 0 14px}
+.ag-trust__intro p:last-of-type{margin-bottom:0}
+.ag-trust__story{display:inline-block;margin-top:16px;padding:4px 0;border-bottom:2px solid var(--orange);color:#fff;text-decoration:none;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.ag-trust__story:hover{color:var(--orange)}
 .ag-trust__intro,.ag-stories__intro{color:#c9cbd0;font-size:15px;line-height:1.7;margin:0;max-width:55ch}
 .ag-trust__systems{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid var(--line);background:#191b1f}
 .ag-trust__system{padding:22px 24px;min-width:0}
