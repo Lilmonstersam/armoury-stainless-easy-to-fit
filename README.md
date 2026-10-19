@@ -274,3 +274,9 @@ idempotent.
   `Installation: Bolt-on, no drilling required` on every Easy Fit product page.
 - Track filter usage as a GA4 event (`filter_easy_fit`) so the demand assumption can be proved
   or disproved within 90 days.
+
+Homepage consolidation, 19 October 2026: experience claims now use 50+ years.
+Customer stories replace the separate homepage gallery, with a View Gallery link.
+The closing section retains its previous branded headings, background and contact
+card styling, with one consolidated paragraph, Contact Us and View Range actions,
+and phone/email details.
