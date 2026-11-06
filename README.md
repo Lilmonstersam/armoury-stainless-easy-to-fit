@@ -280,3 +280,7 @@ Customer stories replace the separate homepage gallery, with a View Gallery link
 The closing section retains its previous branded headings, background and contact
 card styling, with one consolidated paragraph, Contact Us and View Range actions,
 and phone/email details.
+
+Client feedback update, 6 November 2026: supplied brand messages/icons, customer
+photographs and precise ISO management-system scope are now applied throughout.
+See [REVIEW-NOTES.md](REVIEW-NOTES.md) for changes and the certificate renewal request.
