@@ -1,0 +1,189 @@
+/* Homepage-only refinements for the two review mockups. */
+.elementor .ag-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 12px;
+}
+.elementor .ag-hero-actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  padding: 12px 22px;
+  border: 1px solid #e4e5e8;
+  border-radius: 3px;
+  color: #fff;
+  background: #191b1f;
+  font-weight: 700;
+  text-decoration: none;
+}
+.elementor .ag-hero-actions .ag-hero-actions__quote {
+  border-color: #f58220;
+  background: #f58220;
+  color: #141519;
+}
+.elementor .ag-hero-actions a:hover { background: #303338; }
+.elementor .ag-hero-actions .ag-hero-actions__quote:hover { background: #ffac68; }
+
+.ag-benefits--home {
+  background: #e6e7e8;
+  color: #191b1f;
+  padding-block: 62px;
+}
+.ag-benefits--home .ag-benefits__head { margin-bottom: 26px; }
+.ag-benefits--home h2 { color: #191b1f; }
+.ag-benefits--home .ag-benefits__intro { color: #383c42; font-size: 16px; }
+.ag-home-benefits {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0 32px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.ag-home-benefits li {
+  border-top: 1px solid #aaaeb2;
+  padding: 18px 0 20px;
+  min-width: 0;
+}
+.ag-home-benefits li:first-child { border-top: 3px solid #a84406; padding-top: 16px; }
+.ag-benefit-number {
+  display: block;
+  color: #974009;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.ag-home-benefits h3 {
+  font: 400 clamp(25px, 2.2vw, 34px)/1.1 ArmouryTrust, Agency, sans-serif;
+  text-transform: uppercase;
+  color: #191b1f;
+  margin: 0 0 7px;
+}
+.ag-home-benefits p { font-size: 16px; line-height: 1.5; color: #383c42; margin: 0; }
+
+.ag-home-standards {
+  background: #f6f6f5;
+  color: #191b1f;
+  border-top: 1px solid #cfd0d2;
+  padding: 18px 10.5vw;
+  font-family: Montserrat, Arial, sans-serif;
+}
+.ag-home-standards__inner {
+  max-width: 1400px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 4px 24px;
+}
+.ag-home-standards h2 {
+  margin: 0;
+  color: #191b1f;
+  font: 400 28px/1.05 ArmouryTrust, Agency, sans-serif;
+  text-transform: uppercase;
+}
+.ag-home-standards__marks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 6px clamp(12px, 2.5vw, 36px);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.ag-home-standards__marks li { display: flex; align-items: center; }
+.elementor .ag-home-standards__marks img {
+  display: block;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  filter: grayscale(1);
+}
+.ag-standard-wordmark { font-size: 14px; font-weight: 800; letter-spacing: .04em; white-space: nowrap; }
+.ag-home-standards__details { grid-column: 1 / -1; font-size: 15px; line-height: 1.55; }
+.ag-home-standards__details summary,
+.ag-stories__more summary { width: fit-content; min-height: 44px; padding-block: 10px; cursor: pointer; font-weight: 700; }
+.ag-home-standards__details dl {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  gap: 20px;
+  border-top: 1px solid #cfd0d2;
+  padding-top: 16px;
+  margin: 4px 0 0;
+}
+.ag-home-standards__details dt { font-weight: 700; }
+.ag-home-standards__details dd { margin: 4px 0 0; color: #383c42; }
+
+.ag-stories { padding-block: 58px; }
+.ag-stories--compact { background: #18191c; }
+.ag-stories--compact .ag-stories__head { margin-bottom: 24px; }
+.ag-stories--compact .ag-story__image { height: clamp(195px, 20vw, 290px); }
+.ag-stories--compact .ag-story__quote { border: 0; padding: 0; }
+.ag-stories--compact .ag-story h3 { font-size: clamp(28px, 3vw, 36px); }
+.ag-story__summary, .ag-stories__intro { font-size: 16px; color: #dfe0e3; line-height: 1.55; }
+.ag-story blockquote, .ag-voice blockquote { font-size: 17px; line-height: 1.55; }
+.ag-story__quote figcaption, .ag-voice figcaption { color: #d1d3d8; font-size: 14px; }
+.ag-story__photo figcaption { font-size: 13px; color: #d1d3d8; }
+.ag-stories__more { margin-top: 18px; border-top: 1px solid var(--line); color: #fff; }
+.ag-stories__more .ag-voices__grid { padding: 14px 0 4px; align-items: start; }
+
+.ag-trust--compact { padding-block: 54px; }
+.ag-trust--compact .ag-trust__head { margin-bottom: 24px; gap: 22px 36px; }
+.ag-trust--compact .ag-trust__intro { font-size: 16px; color: #dfe0e3; }
+.ag-trust--compact .ag-trust__story { margin-top: 10px; }
+.ag-trust--compact .ag-trust__stainless {
+  grid-template-columns: 1.2fr 1fr;
+  gap: 24px;
+  margin: 0;
+  align-items: stretch;
+}
+.ag-trust--compact .ag-messages { list-style: none; padding: 0; margin: 0; gap: 14px 18px; }
+.ag-trust--compact .ag-message { display: flex; gap: 12px; padding: 12px 0 0; }
+.ag-trust--compact img.ag-message__icon { --ag-icon-size: 37px; margin: 0; }
+.ag-trust--compact .ag-message h3 { font-size: 25px; margin-bottom: 6px; }
+.ag-trust--compact .ag-message p { font-size: 15px; line-height: 1.45; color: #dfe0e3; }
+.ag-trust--compact .ag-trust__project { position: static; min-width: 0; }
+.ag-trust--compact .ag-trust__project img { height: 100%; max-height: 290px; min-height: 225px; object-position: center 52%; }
+.ag-trust__standard-line { border-top: 1px solid var(--line); margin: 20px 0 0; padding-top: 14px; font-size: 15px; line-height: 1.55; color: #dfe0e3; }
+.ag-trust__standard-line strong { color: #fff; }
+
+.elementor .ag-hero-actions a:focus-visible,
+.ag-home-standards summary:focus-visible,
+.ag-stories__more summary:focus-visible { outline: 2px solid #ae480b; outline-offset: 4px; }
+.ag-stories__more summary:focus-visible { outline-color: #f58220; }
+
+/* Keep the sticky bar secondary to the hero and final enquiry. */
+html body #ag-sticky-cta { background: #191b1f; color: #fff; border-top: 2px solid #f58220; }
+html body #ag-sticky-cta .ag-sticky-inner { padding-block: 8px; }
+html body #ag-sticky-cta .ag-sticky-head { font-size: 23px; color: #fff; }
+html body #ag-sticky-cta .ag-sticky-sub { display: none; }
+html body #ag-sticky-cta .ag-sticky-btn { background: transparent; color: #fff; border: 1px solid #b5b6bb; padding: 8px 16px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+html body #ag-sticky-cta .ag-sticky-btn:hover, html body #ag-sticky-cta .ag-sticky-btn:focus-visible { background: #32343a; color: #fff; }
+html body #ag-sticky-cta .ag-sticky-close { width: 40px; height: 40px; color: #fff; background: transparent; }
+
+@media (max-width: 1100px) {
+  .ag-home-standards { padding-inline: 7vw; }
+  .ag-trust--compact .ag-trust__stainless { grid-template-columns: 1.25fr 1fr; }
+}
+@media (max-width: 767px) {
+  .ag-home-benefits { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 16px; }
+  .ag-home-standards { padding-inline: 24px; }
+  .ag-home-standards__inner { grid-template-columns: 1fr; gap: 8px; }
+  .ag-home-standards__marks { justify-content: flex-start; }
+  .ag-home-standards__details dl { grid-template-columns: 1fr; gap: 12px; }
+  .ag-trust--compact .ag-trust__stainless { grid-template-columns: 1fr; gap: 20px; }
+  .ag-trust--compact .ag-trust__project img { height: 210px; min-height: 0; }
+  html body #ag-sticky-cta .ag-sticky-inner { flex-direction: row; align-items: center; justify-content: space-between; padding-inline: 14px 50px; }
+  html body #ag-sticky-cta .ag-sticky-head { font-size: 20px; text-align: left; }
+  html body #ag-sticky-cta .ag-sticky-btn { width: auto; font-size: 13px; }
+  html body #ag-sticky-cta .ag-sticky-close { top: 50%; right: 5px; transform: translateY(-50%); }
+}
+@media (max-width: 640px) {
+  .ag-benefits--home, .ag-trust--compact, .ag-stories { padding-block: 40px; }
+  .ag-home-benefits p, .ag-trust--compact .ag-message p { font-size: 15px; }
+  .ag-trust--compact .ag-messages { grid-template-columns: 1fr; gap: 12px; }
+  .ag-stories__more .ag-voices__grid { grid-template-columns: 1fr; }
+}

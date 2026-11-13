@@ -26,3 +26,9 @@ All 18 mockup pages were checked in desktop and mobile browsers. The updated sec
 - Placed Massive Range beside the existing homepage product-range heading and Custom Solutions in the existing closing contact card.
 - Used CG13 as accessory-detail photography, independently of the Wheels testimonial attribution.
 - Retained the Hallam and Mars-Haul customer accounts. Hallam still uses labelled illustrative imagery; Mars-Haul retains its supplied project image.
+
+## 13 November 2026: homepage feedback
+
+Quality to rely on now has four benefits: Quality first, Aussie made, Road-tested performance and Service that delivers. The photo, 50+ years, We know trucks and Our story remain, with the ISO standards on one line of copy. The section is 610 px at a 1440 px viewport. Reviewer captions and the decorative range icon have been removed; the illustrative build label remains.
+
+The homepage social rail is gone; footer links remain. The dismissible sticky bar appears only after the hero and hides as the final enquiry enters view. The final enquiry styling and non-homepage layouts are retained. The request above for the renewed ISO Certificate of Conformity remains open.
