@@ -36,3 +36,20 @@ The homepage social rail is gone; footer links remain. The dismissible sticky ba
 ## 17 November 2026: closing section
 
 Restored the pre-6 November enquiry card: Talk to the team, with Contact Us and View range.
+
+## 17 November 2026: colour and motion
+
+Client feedback: the homepage felt flat next to the live page.
+
+- Hero truck slider restored. The saved page carried the slider's running state, so it collapsed when it started again and a static-image override had been added. The hero now uses the server markup and rotates as on live.
+- Legends of the Open Road photo carousel restored in its live position, after Custom for your truck type, as an orange section.
+- Quality to rely on now sits in an orange band with the textured black panel used by Workmanship, replacing the orange that Aussie Made provided on live. The page alternates orange and dark sections again.
+- Scroll reveal on the new sections and hover zoom on customer story and quality photos. Both are off when the visitor has reduced motion set.
+
+## 17 November 2026: second round
+
+- Social media sidebar restored on the homepage, matching the other pages.
+- One CTA style across the mockup: Agency, uppercase, white, orange underline, as on Browse Our Range. Where two CTAs sit together, the primary is filled orange (Contact Us, Get a Quote, Add to Cart). Product-card Add and Download Brochure buttons and the enquiry form's Send button keep their existing styles.
+- Footer held to its column with a right inset, so Follow us no longer sits against the edge.
+- Custom for your truck type is a three-column grid (two columns on mobile) instead of a carousel.
+- Legends of the Open Road layout now carries the customer stories: Stainless that delivers heading and intro, with the Hallam Truck Centre and Mars-Haul cards. The separate Stainless that delivers section is removed.

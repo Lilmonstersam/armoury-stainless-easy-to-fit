@@ -27,13 +27,12 @@
 .elementor .ag-hero-actions .ag-hero-actions__quote:hover { background: #ffac68; }
 
 .ag-benefits--home {
-  background: #e6e7e8;
-  color: #191b1f;
+  background: #191b1f;
+  color: #fff;
   padding-block: 62px;
 }
 .ag-benefits--home .ag-benefits__head { margin-bottom: 26px; }
-.ag-benefits--home h2 { color: #191b1f; }
-.ag-benefits--home .ag-benefits__intro { color: #383c42; font-size: 16px; }
+.ag-benefits--home .ag-benefits__intro { color: #d1d3d8; font-size: 16px; }
 .ag-home-benefits {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -43,14 +42,14 @@
   padding: 0;
 }
 .ag-home-benefits li {
-  border-top: 1px solid #aaaeb2;
+  border-top: 1px solid #41444a;
   padding: 18px 0 20px;
   min-width: 0;
 }
-.ag-home-benefits li:first-child { border-top: 3px solid #a84406; padding-top: 16px; }
+.ag-home-benefits li:first-child { border-top: 3px solid var(--orange); padding-top: 16px; }
 .ag-benefit-number {
   display: block;
-  color: #974009;
+  color: var(--orange);
   font-size: 12px;
   font-weight: 700;
   margin-bottom: 6px;
@@ -58,10 +57,10 @@
 .ag-home-benefits h3 {
   font: 400 clamp(25px, 2.2vw, 34px)/1.1 ArmouryTrust, Agency, sans-serif;
   text-transform: uppercase;
-  color: #191b1f;
+  color: #fff;
   margin: 0 0 7px;
 }
-.ag-home-benefits p { font-size: 16px; line-height: 1.5; color: #383c42; margin: 0; }
+.ag-home-benefits p { font-size: 16px; line-height: 1.5; color: #d1d3d8; margin: 0; }
 
 .ag-home-standards {
   background: #f6f6f5;
@@ -160,8 +159,8 @@ html body #ag-sticky-cta { background: #191b1f; color: #fff; border-top: 2px sol
 html body #ag-sticky-cta .ag-sticky-inner { padding-block: 8px; }
 html body #ag-sticky-cta .ag-sticky-head { font-size: 23px; color: #fff; }
 html body #ag-sticky-cta .ag-sticky-sub { display: none; }
-html body #ag-sticky-cta .ag-sticky-btn { background: transparent; color: #fff; border: 1px solid #b5b6bb; padding: 8px 16px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
-html body #ag-sticky-cta .ag-sticky-btn:hover, html body #ag-sticky-cta .ag-sticky-btn:focus-visible { background: #32343a; color: #fff; }
+html body #ag-sticky-cta .ag-sticky-btn { background: transparent; color: #fff; border: 0; border-bottom: 2px solid #f58220; border-radius: 0; padding: 10px 0 6px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; font: 400 22px/1 "Agency", ArmouryTrust, "Arial Narrow", sans-serif; text-transform: uppercase; letter-spacing: 0; }
+html body #ag-sticky-cta .ag-sticky-btn:hover, html body #ag-sticky-cta .ag-sticky-btn:focus-visible { background: transparent; color: #f58220; }
 html body #ag-sticky-cta .ag-sticky-close { width: 40px; height: 40px; color: #fff; background: transparent; }
 
 @media (max-width: 1100px) {
@@ -178,7 +177,7 @@ html body #ag-sticky-cta .ag-sticky-close { width: 40px; height: 40px; color: #f
   .ag-trust--compact .ag-trust__project img { height: 210px; min-height: 0; }
   html body #ag-sticky-cta .ag-sticky-inner { flex-direction: row; align-items: center; justify-content: space-between; padding-inline: 14px 50px; }
   html body #ag-sticky-cta .ag-sticky-head { font-size: 20px; text-align: left; }
-  html body #ag-sticky-cta .ag-sticky-btn { width: auto; font-size: 13px; }
+  html body #ag-sticky-cta .ag-sticky-btn { width: auto; font-size: 20px; }
   html body #ag-sticky-cta .ag-sticky-close { top: 50%; right: 5px; transform: translateY(-50%); }
 }
 @media (max-width: 640px) {
@@ -186,4 +185,136 @@ html body #ag-sticky-cta .ag-sticky-close { width: 40px; height: 40px; color: #f
   .ag-home-benefits p, .ag-trust--compact .ag-message p { font-size: 15px; }
   .ag-trust--compact .ag-messages { grid-template-columns: 1fr; gap: 12px; }
   .ag-stories__more .ag-voices__grid { grid-template-columns: 1fr; }
+}
+
+/* 17 Nov 2026: colour and motion to match the live homepages. */
+
+/* Orange band with an inset textured black panel, as live uses for Workmanship and Legends. */
+.ag-trust--compact,
+.ag-benefits--home {
+  background: #f58220;
+  border: 0;
+  padding: 64px 7.5vw;
+}
+.ag-trust--compact .ag-trust__inner,
+.ag-benefits--home .ag-benefits__inner {
+  max-width: 1280px;
+  background: #000 url("https://armourygroup.com.au/wp-content/uploads/2023/12/bg-slide-1.jpg") center / cover;
+  padding: clamp(36px, 4.5vw, 64px) clamp(24px, 5vw, 72px);
+}
+
+/* Wheels standards strip: dark, so it reads as part of the page rather than a break in it. */
+.ag-home-standards {
+  background: #101114;
+  color: #fff;
+  border-top: 3px solid #f58220;
+}
+.ag-home-standards h2 { color: #fff; }
+.ag-home-standards__marks li {
+  justify-content: center;
+  min-width: 60px;
+  height: 60px;
+  padding: 6px;
+  background: #fff;
+  border-radius: 6px;
+}
+.elementor .ag-home-standards__marks img { width: 48px; height: 48px; filter: none; opacity: 1; }
+.ag-home-standards .ag-standard-wordmark { color: #191b1f; padding-inline: 10px; font-size: 15px; }
+.ag-home-standards__details dl { border-top-color: #34363b; }
+.ag-home-standards__details dd { color: #c9cbd0; }
+.ag-home-standards summary:focus-visible { outline-color: #f58220; }
+
+/* Hover feedback on the new cards. */
+.ag-story__image { overflow: hidden; }
+.ag-story__image img { transition: transform .5s ease; }
+.ag-story:hover .ag-story__image img { transform: scale(1.04); }
+.ag-home-benefits li { transition: border-color .25s ease; }
+.ag-home-benefits li:hover { border-top-color: #f58220; }
+.ag-trust--compact .ag-trust__project { overflow: hidden; }
+.ag-trust--compact .ag-trust__project img { transition: transform .6s ease; }
+.ag-trust--compact .ag-trust__project:hover img { transform: scale(1.03); }
+
+/* Wheels: rotating customer quotes. */
+.ag-voices-rotator { margin-top: 28px; padding-top: 22px; border-top: 1px solid var(--line); }
+.ag-voices-rotator__top { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+.ag-voices-rotator__label { margin: 0; color: #f58220; font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+.ag-voices-rotator__controls { display: flex; gap: 8px; }
+.ag-voices-rotator__controls button {
+  width: 44px; height: 44px; padding: 0;
+  border: 1px solid #5a5d63; border-radius: 3px;
+  background: transparent; color: #fff;
+  font-size: 24px; line-height: 1; cursor: pointer;
+  transition: background .2s ease, border-color .2s ease;
+}
+.ag-voices-rotator__controls button:hover,
+.ag-voices-rotator__controls button:focus-visible { background: #f58220; border-color: #f58220; color: #141519; outline: none; }
+.ag-voices-rotator .ag-voices__grid {
+  display: grid;
+  grid-template-columns: none;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 32px) / 2);
+  gap: 32px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  padding: 0;
+}
+.ag-voices-rotator .ag-voices__grid::-webkit-scrollbar { display: none; }
+.ag-voices-rotator .ag-voice { scroll-snap-align: start; }
+
+/* Scroll reveal. Only applied once the script confirms motion is allowed. */
+.ag-motion .ag-reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+.ag-motion .ag-reveal.is-in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ag-story__image img, .ag-trust--compact .ag-trust__project img { transition: none; }
+  .ag-story:hover .ag-story__image img, .ag-trust--compact .ag-trust__project:hover img { transform: none; }
+  .ag-voices-rotator .ag-voices__grid { scroll-behavior: auto; }
+}
+@media (max-width: 767px) {
+  .ag-trust--compact, .ag-benefits--home { padding: 40px 16px; }
+  .ag-trust--compact .ag-trust__inner, .ag-benefits--home .ag-benefits__inner { padding: 32px 20px; }
+  .ag-voices-rotator .ag-voices__grid { grid-auto-columns: 100%; }
+}
+
+/* 17 Nov 2026 (second round) */
+
+/* Stainless: Custom for your truck type as a three-column grid. */
+.elementor .ag-truck-grid .e-n-carousel { overflow: visible; }
+.elementor .ag-truck-grid .swiper-wrapper {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 26px 16px;
+  height: auto !important;
+  transform: none !important;
+}
+.elementor .ag-truck-grid .swiper-slide { width: auto !important; height: auto !important; margin: 0 !important; }
+.elementor .ag-truck-grid .swiper-slide img { transition: transform .5s ease; }
+.elementor .ag-truck-grid .swiper-slide .elementor-widget-image .elementor-widget-container { overflow: hidden; }
+.elementor .ag-truck-grid .swiper-slide:hover img { transform: scale(1.04); }
+
+/* Stainless: customer stories in the Legends of the Open Road layout. */
+.elementor-5305 .ag-legends-stories .elementor-element.elementor-element-8c1bd3c { --width: 32%; }
+.elementor-5305 .ag-legends-stories .elementor-element.elementor-element-1487d7c { --width: 68%; --margin-right: 0px; --padding-bottom: 0px; }
+.elementor-5305 .ag-legends-stories .elementor-element.elementor-element-2f51705 { display: none; }
+.ag-stories.ag-stories--embedded { width: 100%; padding: 0; background: none; border: 0; }
+.ag-stories--embedded .ag-stories__grid { gap: 20px; }
+.ag-stories--embedded .ag-story { background: #141519; }
+.ag-stories--embedded .ag-story__image { height: clamp(180px, 15vw, 230px); }
+.ag-stories--embedded .ag-story h3 { font-size: clamp(26px, 2.4vw, 34px); }
+
+@media (max-width: 1100px) {
+  .elementor-5305 .ag-legends-stories .elementor-element.elementor-element-8c1bd3c,
+  .elementor-5305 .ag-legends-stories .elementor-element.elementor-element-1487d7c { --width: 100%; }
+}
+@media (max-width: 767px) {
+  .elementor .ag-truck-grid .swiper-wrapper { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 12px; }
+  .ag-stories--embedded .ag-stories__grid { grid-template-columns: 1fr; }
+  .ag-home-standards__marks li { min-width: 52px; height: 52px; }
+  .elementor .ag-home-standards__marks img { width: 40px; height: 40px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .elementor .ag-truck-grid .swiper-slide img { transition: none; }
+  .elementor .ag-truck-grid .swiper-slide:hover img { transform: none; }
 }
