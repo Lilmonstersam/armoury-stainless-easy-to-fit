@@ -32,3 +32,7 @@ All 18 mockup pages were checked in desktop and mobile browsers. The updated sec
 Quality to rely on now has four benefits: Quality first, Aussie made, Road-tested performance and Service that delivers. The photo, 50+ years, We know trucks and Our story remain, with the ISO standards on one line of copy. The section is 610 px at a 1440 px viewport. Reviewer captions and the decorative range icon have been removed; the illustrative build label remains.
 
 The homepage social rail is gone; footer links remain. The dismissible sticky bar appears only after the hero and hides as the final enquiry enters view. The final enquiry styling and non-homepage layouts are retained. The request above for the renewed ISO Certificate of Conformity remains open.
+
+## 17 November 2026: closing section
+
+Restored the pre-6 November enquiry card: Talk to the team, with Contact Us and View range.
