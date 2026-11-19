@@ -210,16 +210,32 @@ html body #ag-sticky-cta .ag-sticky-close { width: 40px; height: 40px; color: #f
   border-top: 3px solid #f58220;
 }
 .ag-home-standards h2 { color: #fff; }
+/* Heading and details stacked on the left; badges on the right, vertically centred on the
+   strip. When details is opened it takes the full width under the badges. */
+.ag-home-standards { padding-block: 22px; }
+.ag-home-standards__inner { gap: 4px 32px; }
+.ag-home-standards h2 { grid-column: 1; grid-row: 1; align-self: end; }
+.ag-home-standards__details { grid-column: 1; grid-row: 2; align-self: start; }
+.ag-home-standards__marks { grid-column: 2; grid-row: 1 / span 2; align-self: center; gap: 10px clamp(14px, 1.8vw, 26px); }
+.ag-home-standards__inner:has(.ag-home-standards__details[open]) .ag-home-standards__marks { grid-row: 1; }
+.ag-home-standards__inner:has(.ag-home-standards__details[open]) .ag-home-standards__details { grid-column: 1 / -1; }
+.ag-home-standards__inner:has(.ag-home-standards__details[open]) h2 { align-self: center; }
+@media (min-width: 768px) and (max-width: 1100px) {
+  .ag-home-standards__marks { gap: 10px 12px; }
+  .ag-home-standards__marks li { min-width: 64px; height: 64px; padding: 7px; }
+  .elementor .ag-home-standards__marks img { width: 50px; height: 50px; }
+  .ag-home-standards .ag-standard-wordmark { padding-inline: 10px; font-size: 16px; }
+}
 .ag-home-standards__marks li {
   justify-content: center;
-  min-width: 60px;
-  height: 60px;
-  padding: 6px;
+  min-width: 76px;
+  height: 76px;
+  padding: 8px;
   background: #fff;
   border-radius: 6px;
 }
-.elementor .ag-home-standards__marks img { width: 48px; height: 48px; filter: none; opacity: 1; }
-.ag-home-standards .ag-standard-wordmark { color: #191b1f; padding-inline: 10px; font-size: 15px; }
+.elementor .ag-home-standards__marks img { width: 60px; height: 60px; filter: none; opacity: 1; }
+.ag-home-standards .ag-standard-wordmark { color: #191b1f; padding-inline: 14px; font-size: 18px; }
 .ag-home-standards__details dl { border-top-color: #34363b; }
 .ag-home-standards__details dd { color: #c9cbd0; }
 .ag-home-standards summary:focus-visible { outline-color: #f58220; }
@@ -311,8 +327,13 @@ html body #ag-sticky-cta .ag-sticky-close { width: 40px; height: 40px; color: #f
 @media (max-width: 767px) {
   .elementor .ag-truck-grid .swiper-wrapper { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 12px; }
   .ag-stories--embedded .ag-stories__grid { grid-template-columns: 1fr; }
-  .ag-home-standards__marks li { min-width: 52px; height: 52px; }
-  .elementor .ag-home-standards__marks img { width: 40px; height: 40px; }
+  .ag-home-standards h2, .ag-home-standards__details, .ag-home-standards__marks,
+  .ag-home-standards__inner:has(.ag-home-standards__details[open]) .ag-home-standards__marks,
+  .ag-home-standards__inner:has(.ag-home-standards__details[open]) .ag-home-standards__details { grid-column: 1; grid-row: auto; }
+  .ag-home-standards__marks { justify-content: flex-start; gap: 10px; }
+  .ag-home-standards__marks li { min-width: 54px; height: 54px; padding: 5px; }
+  .elementor .ag-home-standards__marks img { width: 44px; height: 44px; }
+  .ag-home-standards .ag-standard-wordmark { padding-inline: 8px; font-size: 14px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .elementor .ag-truck-grid .swiper-slide img { transition: none; }
