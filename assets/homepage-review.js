@@ -80,3 +80,30 @@
     setInterval(() => { if (visible && !paused && !document.hidden) go(1); }, 5000);
   });
 })();
+
+// Legends of the Open Road carousel: started here from the bundled Swiper (Swiper 8), with
+// the live settings: 3 per view from 1200px, 2 below, 20px spacing, looping, 3s autoplay.
+(() => {
+  const start = () => {
+    if (typeof window.Swiper !== 'function') return;
+    const motion = window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
+    document.querySelectorAll('.ag-gallery-carousel .e-n-carousel').forEach((el) => {
+      if (el.swiper) return;
+      const widget = el.closest('.ag-gallery-carousel');
+      new window.Swiper(el, {
+        slidesPerView: 2,
+        slidesPerGroup: 1,
+        spaceBetween: 20,
+        loop: true,
+        speed: 500,
+        grabCursor: true,
+        autoplay: motion ? { delay: 3000, pauseOnMouseEnter: true, disableOnInteraction: true } : false,
+        pagination: { el: widget.querySelector('.swiper-pagination'), clickable: true, type: 'bullets' },
+        breakpoints: { 1200: { slidesPerView: 3 } },
+        a11y: { enabled: true },
+      });
+    });
+  };
+  if (document.readyState === 'complete') start();
+  else window.addEventListener('load', start);
+})();

@@ -339,3 +339,12 @@ html body #ag-sticky-cta .ag-sticky-close { width: 40px; height: 40px; color: #f
   .elementor .ag-truck-grid .swiper-slide img { transition: none; }
   .elementor .ag-truck-grid .swiper-slide:hover img { transform: none; }
 }
+
+/* Legends of the Open Road carousel (Wheels), run from the bundled Swiper. Until it starts,
+   or if it cannot, show the first three photos side by side rather than one at full width. */
+.ag-gallery-carousel .e-n-carousel:not(.swiper-initialized) .swiper-wrapper { gap: 20px; transform: none !important; }
+.ag-gallery-carousel .e-n-carousel:not(.swiper-initialized) .swiper-slide { width: calc((100% - 20px) / 2); flex-shrink: 0; }
+@media (min-width: 1200px) {
+  .ag-gallery-carousel .e-n-carousel:not(.swiper-initialized) .swiper-slide { width: calc((100% - 40px) / 3); }
+}
+.ag-gallery-carousel .swiper-slide img { width: 100%; height: auto; }
